@@ -12,7 +12,13 @@ var init = require('./config/init')(),
  */
 
 // Bootstrap db connection
-var db = mongoose.connect(config.db);
+var db = mongoose.connect(config.db, function (err, res) {
+  if (err) {
+  console.log ('ERROR connecting to: ' + config.db + '. ' + err);
+  } else {
+  console.log ('Succeeded connected to: ' + config.db);
+  }
+});
 
 // Init the express application
 var app = require('./config/express')(db);
