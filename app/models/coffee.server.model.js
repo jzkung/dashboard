@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * User Schema
+ * Coffee Schema
  */
 var CoffeeSchema = new Schema({
   name: {
