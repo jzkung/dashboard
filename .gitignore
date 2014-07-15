@@ -1,3 +1,28 @@
+# Dev Node Modules #
+####################
+node_modules/grunt
+node_modules/grunt-concurrent
+node_modules/grunt-contrib-csslint
+node_modules/grunt-contrib-cssmin
+node_modules/grunt-contrib-jshint
+node_modules/grunt-contrib-uglify
+node_modules/grunt-contrib-watch
+node_modules/grunt-env
+node_modules/grunt-karma
+node_modules/grunt-mocha-test
+node_modules/grunt-ngmin
+node_modules/grunt-node-inspector
+node_modules/grunt-nodemon
+node_modules/karma
+node_modules/karma-chrome-launcher
+node_modules/karma-coverage
+node_modules/karma-firefox-launcher
+node_modules/karma-jasmine
+node_modules/karma-phantomjs-launcher
+node_modules/load-grunt-tasks
+node_modules/should
+node_modules/supertest
+
 # Compiled source #
 ###################
 *.com
