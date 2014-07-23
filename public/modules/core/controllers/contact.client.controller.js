@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core').controller('ContactController', ['$scope',
-	function($scope) {
+	function() {
 		// Controller Logic
 		// ...
 	}

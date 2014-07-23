@@ -1,30 +1,11 @@
 'use strict';
+var _ = require('lodash');
 
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [
 	function() {
-		// Define a set of default roles
-		this.defaultRoles = ['user'];
-
 		// Define the menus object
 		this.menus = {};
-
-		// A private function for rendering decision 
-		var shouldRender = function(user) {
-			if (user) {
-				for (var userRoleIndex in user.roles) {
-					for (var roleIndex in this.roles) {
-						if (this.roles[roleIndex] === user.roles[userRoleIndex]) {
-							return true;
-						}
-					}
-				}
-			} else {
-				return this.isPublic;
-			}
-
-			return false;
-		};
 
 		// Validate menu existance
 		this.validateMenuExistance = function(menuId) {
@@ -56,8 +37,7 @@ angular.module('core').service('Menus', [
 			this.menus[menuId] = {
 				isPublic: isPublic || false,
 				roles: roles || this.defaultRoles,
-				items: [],
-				shouldRender: shouldRender
+				items: []
 			};
 
 			// Return the menu object
@@ -87,8 +67,7 @@ angular.module('core').service('Menus', [
 				uiRoute: menuItemUIRoute || ('/' + menuItemURL),
 				isPublic: isPublic || this.menus[menuId].isPublic,
 				roles: roles || this.defaultRoles,
-				items: [],
-				shouldRender: shouldRender
+				items: []
 			});
 
 			// Return the menu object
@@ -109,8 +88,7 @@ angular.module('core').service('Menus', [
 						link: menuItemURL,
 						uiRoute: menuItemUIRoute || ('/' + menuItemURL),
 						isPublic: isPublic || this.menus[menuId].isPublic,
-						roles: roles || this.defaultRoles,
-						shouldRender: shouldRender
+						roles: roles || this.defaultRoles
 					});
 				}
 			}
@@ -141,13 +119,13 @@ angular.module('core').service('Menus', [
 			this.validateMenuExistance(menuId);
 
 			// Search for menu item to remove
-			for (var itemIndex in this.menus[menuId].items) {
-				for (var subitemIndex in this.menus[menuId].items[itemIndex].items) {
+			_(this.menus[menuId].items).forEach(function(itemIndex) {
+				_(this.menus[menuId].items[itemIndex].items).forEach(function(subitemIndex) {
 					if (this.menus[menuId].items[itemIndex].items[subitemIndex].link === submenuItemURL) {
 						this.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
 					}
-				}
-			}
+				});
+			});
 
 			// Return the menu object
 			return this.menus[menuId];
