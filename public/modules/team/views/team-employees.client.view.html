@@ -1,0 +1,8 @@
+<section data-ng-controller="TeamController as team">
+	<section class ng-repeat="employee in team.employees">
+		{{ employee.name }} <br>
+		{{ employee.title }} <br>
+		<b>Birthday</b>: {{ employee.birthday }} <br>
+		<b>Hire date</b>: {{ employee.hireDate }}
+	</section>
+</section>

@@ -1,5 +1,4 @@
 'use strict';
-var _ = require('lodash');
 
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [

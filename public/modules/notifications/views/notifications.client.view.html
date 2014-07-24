@@ -1,0 +1,7 @@
+<section data-ng-controller="NotificationsController as notifications">
+	<strong>My Notifications</strong>
+	<section class ng-repeat="alert in notifications.alerts">
+		<a ng-href="{{ alert.link }}">{{ alert.title }}</a> <br>
+		due {{ alert.dueDate }}
+	</section>
+</section>
