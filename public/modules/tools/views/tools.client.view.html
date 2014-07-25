@@ -1,0 +1,9 @@
+<section data-ng-controller="ToolsController as tools">
+	<section ng-repeat="tool in tools.toolbox">
+		{{ tool.category }} <br>
+		<section ng-repeat="link in tool.links">
+			<a ng-href="{{ link.url }}">{{ link.name }}</a>
+			– {{ link.description }}
+		</section>
+	</section>
+</section>

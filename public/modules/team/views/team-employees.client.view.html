@@ -1,8 +1,13 @@
-<section data-ng-controller="TeamController as team">
-	<section class ng-repeat="employee in team.employees">
-		{{ employee.name }} <br>
-		{{ employee.title }} <br>
-		<b>Birthday</b>: {{ employee.birthday }} <br>
-		<b>Hire date</b>: {{ employee.hireDate }}
-	</section>
-</section>
+<table class="table">
+	<tr ng-repeat="employee in team.employees">
+		<td>
+			<img ng-src="{{ employee.image }}" width="100px"/>
+		</td>
+		<td>
+			<a ng-href="{{ employee.link }}">{{ employee.name }} </a><br>
+			{{ employee.title }} <br>
+			<b>Birthday</b>: {{ employee.birthday }} <br>
+			<b>Hire date</b>: {{ employee.hireDate }}
+		</td>
+	</tr>
+</table>

@@ -1,4 +1,6 @@
-<h3 class="widget-header">My Team</h3>
-<div class="widget-body">
-	This is the body of the widget
-</div>
+<section class="col-xs-12 col-sm-6 col-md-4">
+	<table>
+		<thead><h3>{{ widget.title }}</h3></thead>
+		<tbody ng-transclude></tbody>
+	</table>
+</section>

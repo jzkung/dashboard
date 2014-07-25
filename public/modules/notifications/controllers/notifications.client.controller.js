@@ -20,6 +20,9 @@ var alerts = [
 
 angular.module('notifications').controller('NotificationsController', ['$scope',
 	function($scope) {
+		$scope.widget = {
+			title: "My Notifications"
+		};
 		this.alerts = alerts;
 	}
 ]);

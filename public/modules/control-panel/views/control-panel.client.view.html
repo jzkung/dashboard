@@ -4,9 +4,20 @@
 		<small>Welcome back, Jessica Kung</small>
 	</h1>
 	<div class="row">
-		<team class="col-xs-12 col-sm-6 col-md-4">
-		</team>
-		<notifications class="col-xs-12 col-sm-6 col-md-4">
-		</notifications>
+		<div data-ng-controller="TeamController as team">
+			<widget>
+				<team></team>
+			</widget>
+		</div>
+		<div data-ng-controller="ToolsController as tools">
+			<widget>
+				<tools></tools>
+			</widget>
+		</div>
+		<div data-ng-controller="NotificationsController as notifications">
+			<widget>
+				<notifications></notifications>
+			</widget>
+		</div>
 	</div>
 </section>
