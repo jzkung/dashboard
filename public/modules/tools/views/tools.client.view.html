@@ -1,9 +1,13 @@
 <section data-ng-controller="ToolsController as tools">
-	<section ng-repeat="tool in tools.toolbox">
-		{{ tool.category }} <br>
-		<section ng-repeat="link in tool.links">
-			<a ng-href="{{ link.url }}">{{ link.name }}</a>
-			– {{ link.description }}
-		</section>
-	</section>
+	<accordion close-others=false>
+    	<accordion-group is-open="status.open" ng-repeat="tool in tools.toolbox">
+	    	<accordion-heading>
+	    		{{tool.category}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+	    	</accordion-heading>
+	      <section ng-repeat="link in tool.links">
+				<a ng-href="{{ link.url }}">{{ link.name }}</a>
+				– {{ link.description }}
+			</section>
+	   </accordion-group>
+  	</accordion>
 </section>
