@@ -1,6 +1,15 @@
-<section class="col-xs-12 col-sm-6 col-md-4">
+<!-- <section class="col-xs-12 col-sm-6 col-md-4">
+	<accordion close-others=false>
+    	<accordion-group is-open="status.open">
+	    	<accordion-heading>
+	    		{{ widget.title }} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+	    	</accordion-heading>
+	    	<section ng-transclude></section>
+	   </accordion-group>
+  	</accordion>
+</section> -->
+	 <section class="col-xs-12 col-sm-6 col-md-4">
 	<div>
 		<div><h3>{{ widget.title }}</h3></div>
 		<div ng-transclude></div>
-	</div>
-</section>
+	</div> </section>
