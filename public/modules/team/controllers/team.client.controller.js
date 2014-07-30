@@ -53,7 +53,7 @@ angular.module('team').controller('TeamController', ['$scope', '$animate',
 		$scope.widget = {
 			title: "My Team"
 		};
-		$scope.myInterval = 5000;
+		$scope.myInterval = -5000;
 		this.employees = employees;
 		this.birthdays = birthdays;
 	}

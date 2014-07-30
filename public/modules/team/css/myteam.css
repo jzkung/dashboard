@@ -1,0 +1,46 @@
+div.event-panel-cont {
+	display: inline-block;
+	width: 20%;
+}
+
+span.event-panel {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	height: 100px;
+}
+
+.carousel-control.left, .carousel-control.right {
+	background: none;
+}
+
+.carousel-control {
+	color: black;
+}
+
+.carousel-control .glyphicon-chevron-right, .carousel-control .glyphicon-chevron-left {
+	margin-top: -10px;
+	font-size: 20px;
+}
+
+.carousel-indicators {
+	display: none;
+}
+
+.carousel img {
+	float: left;
+	padding: 10px;
+	margin-left: 25px !important;
+}
+
+.carousel-caption {
+	margin-right: 35px !important;
+	position: static;
+	text-shadow: none;
+	padding-bottom: 0;
+}
+
+.carousel-caption p {
+	font-size: 0.9em;
+	margin: 10px 0;
+}

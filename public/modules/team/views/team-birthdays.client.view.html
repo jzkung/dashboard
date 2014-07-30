@@ -1,11 +1,10 @@
-<div style="display:inline-block; width:20%;">
-2 birthdays today!
+<div class="event-panel-cont">
+	<span class="event-panel">2 birthdays today!</span>
 </div>
 <carousel interval="myInterval" style="display:inline-block; width:78%;">
    <slide ng-repeat="birthday in team.birthdays" active="birthday.active">
 	   <img ng-src="{{birthday.image}}" style="margin:auto; height: 100px;">
       <div class="carousel-caption">
-      	<h4>{{birthday.name}}'s {{birthday.age}}!</h4>
       	<a href="#"><p>Wish {{birthday.name}} a happy birthday!</p></a>
    	</div>
    </slide>
