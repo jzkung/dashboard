@@ -1,0 +1,7 @@
+.widget > accordion > .panel-group > .panel-default > .panel-heading {
+	background-color: #7090ac;
+	background-image: none;
+	color: #fff;
+	text-transform: uppercase;
+	padding: 15px 20px;
+}

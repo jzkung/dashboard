@@ -1,5 +1,5 @@
 <section data-ng-controller="ToolsController as tools">
-	<accordion close-others=false>
+	<accordion close-others=false class="links">
     	<accordion-group is-open="status.open" ng-repeat="tool in tools.toolbox">
 	    	<accordion-heading>
 	    		{{tool.category}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>

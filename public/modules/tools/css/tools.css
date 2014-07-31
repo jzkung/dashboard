@@ -1,0 +1,9 @@
+accordion .links > .panel-group > .panel-default > .panel-heading {
+	background: none;
+}
+
+.links > .panel-group > .panel {
+	border: 0;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
