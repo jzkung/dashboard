@@ -37,15 +37,16 @@ var birthdays = [
 		name: 'Kevin Lu',
 		age: '21',
 		image: 'modules/team/img/kevin.png'
-	},
-	{
-		name: 'Kevin Lu',
-		age: '21',
-		image: 'modules/team/img/kevin.png'
 	}
 ];
 
-var anniversaries = [];
+var anniversaries = [
+	{
+		name: 'Sara Hua',
+		year: '2',
+		image: 'modules/team/img/sara.png'
+	}
+];
 
 angular.module('team').controller('TeamController', ['$scope', '$animate',
 	function($scope, $animate) {
@@ -56,5 +57,6 @@ angular.module('team').controller('TeamController', ['$scope', '$animate',
 		$scope.myInterval = -5000;
 		this.employees = employees;
 		this.birthdays = birthdays;
+		this.anniversaries = anniversaries;
 	}
 ]);

@@ -1,0 +1,17 @@
+<div class="event-panel-cont">
+	<span class="event-panel">
+		<ng-pluralize count="{{team.anniversaries.length}}" when="{
+	                     'one': '1 anniversary today!',
+	                     'other': '{} anniversaries today!'}">
+		</ng-pluralize>
+	</span>
+</div>
+<carousel interval="myInterval" style="display:inline-block; width:78%;">
+   <slide ng-repeat="anniversary in team.anniversaries" active="anniversary.active">
+	   <img ng-src="{{anniversary.image}}" style="margin:auto; height: 100px;">
+      <div class="carousel-caption">
+      	<a href="#"><p>{{anniversary.name}}'s<br>{{anniversary.year}}-year anniversary!</p></a>
+   	</div>
+   </slide>
+</carousel>
+</div>

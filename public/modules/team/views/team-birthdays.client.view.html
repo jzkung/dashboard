@@ -1,5 +1,10 @@
 <div class="event-panel-cont">
-	<span class="event-panel">2 birthdays today!</span>
+	<span class="event-panel">
+		<ng-pluralize count="{{team.birthdays.length}}" when="{
+	                     'one': '1 birthdays today!',
+	                     'other': '{} birthdays today!'}">
+		</ng-pluralize>
+	</span>
 </div>
 <carousel interval="myInterval" style="display:inline-block; width:78%;">
    <slide ng-repeat="birthday in team.birthdays" active="birthday.active">
