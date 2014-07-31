@@ -2,37 +2,37 @@
 
 var toolbox = [
 	{
-		category: "Daily",
+		category: 'Daily',
 		links: [
 			{
-				name: "PrimeTime",
-				description: "a place to manage your timesheet!",
-				url: "http://www.primetime.com"
+				name: 'PrimeTime',
+				description: 'a place to manage your timesheet!',
+				url: 'http://www.primetime.com'
 			},
 			{
-				name: "Workday",
-				description: "a place to look at your team and stuff!",
-				url: "http://www.workday.com"
+				name: 'Workday',
+				description: 'a place to look at your team and stuff!',
+				url: 'http://www.workday.com'
 			},
 			{
-				name: "Yelp",
-				description: "a place to look for good foods!",
-				url: "http://www.yelp.com"
+				name: 'Yelp',
+				description: 'a place to look for good foods!',
+				url: 'http://www.yelp.com'
 			}
 		]
 	},
 	{
-		category: "Miscellaneous",
+		category: 'Miscellaneous',
 		links: [
 			{
-				name: "HR Insight",
-				description: "a place to go when you have questions!",
-				url: "http://insight.intuit.com"
+				name: 'HR Insight',
+				description: 'a place to go when you have questions!',
+				url: 'http://insight.intuit.com'
 			},
 			{
-				name: "Onboarding",
-				description: "the place you went to onboard and stuff!",
-				url: "http://www.intuit.com"
+				name: 'Onboarding',
+				description: 'the place you went to onboard and stuff!',
+				url: 'http://www.intuit.com'
 			}
 		]
 	}
@@ -41,7 +41,7 @@ var toolbox = [
 angular.module('tools').controller('ToolsController', ['$scope',
 	function($scope) {
 		$scope.widget = {
-			title: "My Tools"
+			title: 'My Tools'
 		};
 		this.toolbox = toolbox;
 	}
