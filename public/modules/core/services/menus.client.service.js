@@ -118,13 +118,13 @@ angular.module('core').service('Menus', [
 			this.validateMenuExistance(menuId);
 
 			// Search for menu item to remove
-			_(this.menus[menuId].items).forEach(function(itemIndex) {
-				_(this.menus[menuId].items[itemIndex].items).forEach(function(subitemIndex) {
+			for (var itemIndex in this.menus[menuId].items) {
+				for (var subitemIndex in this.menus[menuId].items[itemIndex].items) {
 					if (this.menus[menuId].items[itemIndex].items[subitemIndex].link === submenuItemURL) {
 						this.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
 					}
-				});
-			});
+				}
+			}
 
 			// Return the menu object
 			return this.menus[menuId];
