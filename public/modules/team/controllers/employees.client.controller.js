@@ -30,5 +30,16 @@ var employees = [
 angular.module('team').controller('TeamEmployeesController', ['$scope',
 	function($scope) {
 		this.employees = employees;
+		var initEmployees = 2;
+		$scope.employeesToShow = initEmployees;
+		$scope.hasMoreToShow = function() {
+			return $scope.employeesToShow < employees.length;
+		};
+		$scope.showAll = function() {
+			$scope.employeesToShow = employees.length;
+		};
+		$scope.hideSome = function() {
+			$scope.employeesToShow = initEmployees;
+		}
 	}
 ]);

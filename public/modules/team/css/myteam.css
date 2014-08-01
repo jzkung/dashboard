@@ -1,3 +1,20 @@
+div.div-table {
+	display: table;
+	border-spacing: 5px;
+	border-collapse: separate;
+}
+
+div.div-table-row {
+	display: table-row;
+	clear: both;
+}
+
+div.div-table-cell {
+	display: table-cell;
+	padding: 5px;
+	vertical-align: top;
+}
+
 div.event-panel-cont {
 	display: inline-block;
 	width: 20%;

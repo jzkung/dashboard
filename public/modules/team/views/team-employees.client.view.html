@@ -1,18 +1,21 @@
 <div ng-controller="TeamEmployeesController as teamEmployees"
-<table class="table">
-	<div ng-repeat="employee in teamEmployees.employees" ng-init="show = false">
-		<div ng-show="$index < 2 || show">
-			<div>
-				{{ show }}
+	<table class="div-table">
+		<div ng-repeat="employee in teamEmployees.employees | limitTo: employeesToShow" class="div-table-row">
+			<div class="div-table-cell">
 				<img ng-src="{{ employee.image }}" width="100px"/>
 			</div>
-			<div>
+			<div class="div-table-cell">
 				<a ng-href="{{ employee.link }}">{{ employee.name }} </a><br>
 				{{ employee.title }} <br>
 				<b>Birthday</b>: {{ employee.birthday }} <br>
 				<b>Hire date</b>: {{ employee.hireDate }}
 			</div>
 		</div>
-		<div ng-if="$index >= 2 && !show"><a href="#" ng-click="show = true">VIEW MORE</a></div>
-	</div>
-</table>
+		<button ng-show="hasMoreToShow()" ng-click="showAll()">
+			View All
+		</button>
+		<button ng-show="!hasMoreToShow()" ng-click="hideSome()">
+			View Fewer
+		</button>
+	</table>
+</div>
