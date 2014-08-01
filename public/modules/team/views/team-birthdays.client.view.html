@@ -1,17 +1,20 @@
-<div class="event-panel-cont">
-	<span class="event-panel">
-		<ng-pluralize count="{{team.birthdays.length}}" when="{
-	                     'one': '1 birthdays today!',
-	                     'other': '{} birthdays today!'}">
-		</ng-pluralize>
-	</span>
-</div>
-<carousel interval="myInterval" style="display:inline-block; width:78%;">
-   <slide ng-repeat="birthday in team.birthdays" active="birthday.active">
-	   <img ng-src="{{birthday.image}}" style="margin:auto; height: 100px;">
-      <div class="carousel-caption">
-      	<a href="#"><p>Wish {{birthday.name}} a happy birthday!</p></a>
-   	</div>
-   </slide>
-</carousel>
-</div>
+<section ng-controller="TeamBirthdayController as teamBirthdays">
+	<div>
+		<div class="event-panel-cont">
+			<span class="event-panel">
+				<ng-pluralize count="{{teamBirthdays.birthdays.length}}" when="{
+			                     'one': '1 birthdays today!',
+			                     'other': '{} birthdays today!'}">
+				</ng-pluralize>
+			</span>
+		</div>
+		<carousel interval="myInterval" style="display:inline-block; width:78%;">
+		   <slide ng-repeat="birthday in teamBirthdays.birthdays" active="birthday.active">
+			   <img ng-src="{{birthday.image}}" style="margin:auto; height: 100px;">
+		      <div class="carousel-caption">
+		      	<a href="#"><p>Wish {{birthday.name}} a happy birthday!</p></a>
+		   	</div>
+		   </slide>
+		</carousel>
+	</div>
+</section>

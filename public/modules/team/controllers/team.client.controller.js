@@ -27,36 +27,13 @@ var employees = [
 	}
 ];
 
-var birthdays = [
-	{
-		name: 'Jessica Kung',
-		age: '22',
-		image: 'modules/team/img/jessicar.png'
-	},
-	{
-		name: 'Kevin Lu',
-		age: '21',
-		image: 'modules/team/img/kevin.png'
-	}
-];
-
-var anniversaries = [
-	{
-		name: 'Sara Hua',
-		year: '2',
-		image: 'modules/team/img/sara.png'
-	}
-];
-
 angular.module('team').controller('TeamController', ['$scope', '$animate',
 	function($scope, $animate) {
 		$animate.enabled(false);
 		$scope.widget = {
 			title: 'My Team'
 		};
-		$scope.myInterval = -5000;
+		$scope.myInterval = 5000;
 		this.employees = employees;
-		this.birthdays = birthdays;
-		this.anniversaries = anniversaries;
 	}
 ]);

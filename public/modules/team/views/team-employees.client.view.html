@@ -1,13 +1,18 @@
+<div ng-controller="TeamEmployeesController as teamEmployees"
 <table class="table">
-	<tr ng-repeat="employee in team.employees">
-		<td>
-			<img ng-src="{{ employee.image }}" width="100px"/>
-		</td>
-		<td>
-			<a ng-href="{{ employee.link }}">{{ employee.name }} </a><br>
-			{{ employee.title }} <br>
-			<b>Birthday</b>: {{ employee.birthday }} <br>
-			<b>Hire date</b>: {{ employee.hireDate }}
-		</td>
-	</tr>
+	<div ng-repeat="employee in teamEmployees.employees" ng-init="show = false">
+		<div ng-show="$index < 2 || show">
+			<div>
+				{{ show }}
+				<img ng-src="{{ employee.image }}" width="100px"/>
+			</div>
+			<div>
+				<a ng-href="{{ employee.link }}">{{ employee.name }} </a><br>
+				{{ employee.title }} <br>
+				<b>Birthday</b>: {{ employee.birthday }} <br>
+				<b>Hire date</b>: {{ employee.hireDate }}
+			</div>
+		</div>
+		<div ng-if="$index >= 2 && !show"><a href="#" ng-click="show = true">VIEW MORE</a></div>
+	</div>
 </table>
