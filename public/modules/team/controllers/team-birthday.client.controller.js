@@ -2,13 +2,15 @@
 
 var birthdays = [
 	{
-		name: 'Jessica Kung',
-		age: '22',
+		first_name: 'Jessica',
+		last_name: 'Kung',
+		age: '22nd',
 		image: 'modules/team/img/jessicar.png'
 	},
 	{
-		name: 'Kevin Lu',
-		age: '21',
+		first_name: 'Kevin',
+		last_name: 'Lu',
+		age: '21st',
 		image: 'modules/team/img/kevin.png'
 	}
 ];

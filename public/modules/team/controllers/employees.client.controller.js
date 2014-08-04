@@ -24,6 +24,22 @@ var employees = [
 		hireDate: '6/16/2014',
 		link: 'http://www.workday.com',
 		image: 'modules/team/img/kevin.png'
+	},
+	{
+		name: 'Sara Hua',
+		title: 'HR Intern',
+		birthday: '7/25/1992',
+		hireDate: '7/28/2014',
+		link: 'http://www.workday.com',
+		image: 'modules/team/img/sara.png'
+	},
+	{
+		name: 'Kevin Lu',
+		title: 'Software Engineer Intern',
+		birthday: '5/5/1993',
+		hireDate: '6/16/2014',
+		link: 'http://www.workday.com',
+		image: 'modules/team/img/kevin.png'
 	}
 ];
 
@@ -40,6 +56,9 @@ angular.module('team').controller('TeamEmployeesController', ['$scope',
 		};
 		$scope.hideSome = function() {
 			$scope.employeesToShow = initEmployees;
-		}
+		};
+		$scope.checkIfShow = function(index) {
+			return index < $scope.employeesToShow;
+		};
 	}
 ]);

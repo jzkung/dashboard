@@ -2,8 +2,9 @@
 
 var anniversaries = [
 	{
-		name: 'Sara Hua',
-		year: '2',
+		first_name: 'Sara',
+		last_name: 'Hua',
+		year: '2nd',
 		image: 'modules/team/img/sara.png'
 	}
 ];

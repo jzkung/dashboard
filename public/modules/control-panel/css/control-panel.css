@@ -13,3 +13,7 @@ body {
 h1.title {
 	margin-bottom: 30px;
 }
+
+.team-widget .panel-body {
+	padding-top: 0;
+}

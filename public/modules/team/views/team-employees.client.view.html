@@ -1,8 +1,9 @@
-<div ng-controller="TeamEmployeesController as teamEmployees"
-	<table class="div-table">
-		<div ng-repeat="employee in teamEmployees.employees | limitTo: employeesToShow" class="div-table-row">
+<div ng-controller="TeamEmployeesController as teamEmployees">
+
+	<div class="div-table team-employees">
+		<div ng-repeat="employee in teamEmployees.employees" class="div-table-row sample-show-hide" ng-show="checkIfShow($index)" style="clear:both;">
 			<div class="div-table-cell">
-				<img ng-src="{{ employee.image }}" width="100px"/>
+				<img ng-src="{{ employee.image }}"/>
 			</div>
 			<div class="div-table-cell">
 				<a ng-href="{{ employee.link }}">{{ employee.name }} </a><br>
@@ -17,5 +18,5 @@
 		<button ng-show="!hasMoreToShow()" ng-click="hideSome()">
 			View Fewer
 		</button>
-	</table>
+	</div>
 </div>

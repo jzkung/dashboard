@@ -1,7 +1,12 @@
+section.border-bottom {
+	border-bottom: 1px solid #ddd;
+}
+
 div.div-table {
 	display: table;
 	border-spacing: 5px;
 	border-collapse: separate;
+	width: 100%;
 }
 
 div.div-table-row {
@@ -15,16 +20,23 @@ div.div-table-cell {
 	vertical-align: top;
 }
 
+div.div-table-cell img {
+	width: 85px;
+}
+
 div.event-panel-cont {
 	display: inline-block;
 	width: 20%;
 }
 
 span.event-panel {
-	display: table-cell;
+	width: 75px;
+}
+
+.carousel {
+	display: inline-block !important;
+	width: 68%;
 	vertical-align: middle;
-	text-align: center;
-	height: 100px;
 }
 
 .carousel-control.left, .carousel-control.right {
@@ -44,12 +56,6 @@ span.event-panel {
 	display: none;
 }
 
-.carousel img {
-	float: left;
-	padding: 10px;
-	margin-left: 25px !important;
-}
-
 .carousel-caption {
 	margin-right: 35px !important;
 	position: static;
@@ -60,4 +66,45 @@ span.event-panel {
 .carousel-caption p {
 	font-size: 0.9em;
 	margin: 10px 0;
+}
+
+.responsive-container {
+    position: relative;
+    width: 100%;
+}
+
+.dummy {
+    padding-top: 35%; /* forces 1:1 aspect ratio */
+}
+
+.content-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    text-align:center; /* Align center inline elements */
+}
+
+.content-container:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.content-container img, .content-container span {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.content-container img {
+	width: 40%;
+	max-width: 200px;
+	display: inline-block !important;
+}
+
+carousel .active {
+	display: inline-block !important;
 }
