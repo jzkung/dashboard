@@ -108,3 +108,8 @@ span.event-panel {
 carousel .active {
 	display: inline-block !important;
 }
+
+div.center {
+	width: 100%;
+	text-align: center;
+}
