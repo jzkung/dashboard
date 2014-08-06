@@ -1,20 +1,20 @@
 'use strict';
 
-var birthdays = [
-	{
-		name: 'Jessica Kung',
-		age: '22',
-		image: 'modules/team/img/jessicar.png'
-	},
-	{
-		name: 'Kevin Lu',
-		age: '21',
-		image: 'modules/team/img/kevin.png'
-	}
-];
+angular.module('team').controller('TeamBirthdayController', ['$scope', '$animate','teamFactory', 'filterFilter',
+	function($scope, $animate, teamFactory, filterFilter) {
+		$scope.birthdays = [];
 
-angular.module('team').controller('TeamBirthdayController', ['$scope', '$animate',
-	function($scope, $animate) {
-		this.birthdays = birthdays;
+		$scope.fetchBasicWorkerInfoForManager = function (managerName){
+			teamFactory.fetchBasicWorkerInfoForManager(managerName).then(
+				function(event){
+					console.log('in controller method - inside callback function');
+					$scope.birthdays = filterFilter(event, {isBirthdayToday : true});
+				});
+		};
+
+		/* TODO : use logged in user name as parameter */
+		$scope.fetchBasicWorkerInfoForManager('nverma');
+
+
 	}
 ]);

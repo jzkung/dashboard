@@ -1,6 +1,6 @@
-<div ng-controller="TeamEmployeesController as teamEmployees"
+<div ng-controller="TeamEmployeesController as teamEmployees">
 	<table class="div-table">
-		<div ng-repeat="employee in teamEmployees.employees | limitTo: employeesToShow" class="div-table-row">
+		<div ng-repeat="employee in emps | limitTo: employeesToShow" class="div-table-row">
 			<div class="div-table-cell">
 				<img ng-src="{{ employee.image }}" width="100px"/>
 			</div>

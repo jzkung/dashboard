@@ -1,35 +1,11 @@
 'use strict';
 
-var employees = [
-	{
-		name: 'Jessica Kung',
-		title: 'Software Engineer Intern',
-		birthday: '10/02/1992',
-		hireDate: '6/23/2014',
-		link: 'http://www.workday.com',
-		image: 'modules/team/img/jessicar.png'
-	},
-	{
-		name: 'Sara Hua',
-		title: 'HR Intern',
-		birthday: '7/25/1992',
-		hireDate: '7/28/2014',
-		link: 'http://www.workday.com',
-		image: 'modules/team/img/sara.png'
-	},
-	{
-		name: 'Kevin Lu',
-		title: 'Software Engineer Intern',
-		birthday: '5/5/1993',
-		hireDate: '6/16/2014',
-		link: 'http://www.workday.com',
-		image: 'modules/team/img/kevin.png'
-	}
-];
+angular.module('team').controller('TeamEmployeesController', ['$scope', 'teamFactory',
+	function($scope, teamFactory) {
 
-angular.module('team').controller('TeamEmployeesController', ['$scope',
-	function($scope) {
-		this.employees = employees;
+		var employees = [];
+		$scope.emps = employees;
+
 		var initEmployees = 2;
 		$scope.employeesToShow = initEmployees;
 		$scope.hasMoreToShow = function() {
@@ -40,6 +16,25 @@ angular.module('team').controller('TeamEmployeesController', ['$scope',
 		};
 		$scope.hideSome = function() {
 			$scope.employeesToShow = initEmployees;
-		}
+		};
+
+		$scope.fetchBasicWorkerInfoForManager = function (managerName){
+			var m = [];
+			console.log('in controller method');
+			teamFactory.fetchBasicWorkerInfoForManager(managerName).then(
+				function(event){
+					console.log('in controller method - inside callback function');
+					m = event;
+					$scope.emps = m;
+					employees = m;
+					console.log($scope.emps);
+				});
+
+		};
+
+		/* TODO : use logged in user name as parameter */
+		$scope.fetchBasicWorkerInfoForManager('nverma'); 
+
+
 	}
 ]);

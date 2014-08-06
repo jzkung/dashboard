@@ -2,14 +2,15 @@
 	<div>
 		<div class="event-panel-cont">
 			<span class="event-panel">
-				<ng-pluralize count="{{teamBirthdays.birthdays.length}}" when="{
-			                     'one': '1 birthdays today!',
+<!-- 				<ng-pluralize count="{{birthdays.length}}" when="{
+			                     'one': '1 birthday today!',
 			                     'other': '{} birthdays today!'}">
-				</ng-pluralize>
+				</ng-pluralize> -->
+				{{birthdays.length}} birthday(s) today! 
 			</span>
 		</div>
 		<carousel interval="myInterval" style="display:inline-block; width:78%;">
-		   <slide ng-repeat="birthday in teamBirthdays.birthdays" active="birthday.active">
+		   <slide ng-repeat="birthday in birthdays" active="birthday.active">
 			   <img ng-src="{{birthday.image}}" style="margin:auto; height: 100px;">
 		      <div class="carousel-caption">
 		      	<a href="#"><p>Wish {{birthday.name}} a happy birthday!</p></a>
@@ -17,4 +18,5 @@
 		   </slide>
 		</carousel>
 	</div>
+	
 </section>
