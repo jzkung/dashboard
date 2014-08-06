@@ -7,7 +7,8 @@
 
  angular.module('team').factory('teamFactory',
  	function($http, $log, $q){
-	return {
+ 		var workers = [];
+		return {
 		fetchBasicWorkerInfoForManager: function (managerName) {
 			var deferred = $q.defer();
 			var url = '/teams/getInfoFromServer/'+ managerName;
@@ -25,6 +26,12 @@
 				$log.debug(data, status, headers, config);
 			});
 			return deferred.promise;
+		},
+		setWorkers: function(workersData){
+			workers = workersData;
+		},
+		getWorkers: function(){
+			return workers;
 		}
 	};
  });

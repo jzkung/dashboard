@@ -22,20 +22,21 @@ angular.module('team').controller('TeamEmployeesController', ['$scope', 'teamFac
 		};
 
 		$scope.fetchBasicWorkerInfoForManager = function (managerName){
-			var m = [];
-			console.log('in controller method');
+			console.log('in employee controller method');
 			teamFactory.fetchBasicWorkerInfoForManager(managerName).then(
 				function(event){
-					console.log('in controller method - inside callback function');
-					m = event;
-					$scope.emps = m;
-					employees = m;
-					console.log($scope.emps);
+					$scope.emps = event;
+					employees = event;
 				});
 
 		};
 
 		/* TODO : use logged in user name as parameter */
 		$scope.fetchBasicWorkerInfoForManager('nverma'); 
+
+
+		$scope.$watch('emps', function (newValue) {
+        	if (newValue) teamFactory.setWorkers(newValue);
+    	});
 	}
 ]);

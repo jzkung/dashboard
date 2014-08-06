@@ -4,15 +4,12 @@ angular.module('team').controller('TeamAnniversaryController', ['$scope', '$anim
 	function($scope, $animate, teamFactory, filterFilter) {
 		$scope.anniversaries = [];
 
-		$scope.fetchBasicWorkerInfoForManager = function (managerName){
-			teamFactory.fetchBasicWorkerInfoForManager(managerName).then(
-				function(event){
-					console.log('in anniversary controller method - inside callback function');
-					$scope.anniversaries = filterFilter(event, {isAnniversaryToday : true});
-				});
-		};
-
-		/* TODO : use logged in user name as parameter */
-		$scope.fetchBasicWorkerInfoForManager('nverma');
+		$scope.$watch(function () { return teamFactory.getWorkers(); }, function (newValue) {
+        	if (newValue) {
+        		var anniversaries = newValue;
+        		$scope.anniversaries = filterFilter(anniversaries, {isAnniversaryToday : true});
+        	}
+    	});
+    	
 	}
 ]);

@@ -10,9 +10,9 @@
 					</ng-pluralize>
 				</span>
 				<carousel interval="myInterval" class="carousel">
-				   <slide ng-repeat="anniversary in anniversaries" active="anniversary.active">
+				   <slide ng-repeat="anniversary in anniversaries">
 					   <img ng-src="{{anniversary.image}}">
-				      <span><a href="#">{{anniversary.first_name}}'s<br>{{anniversary.numAnniversary}} year!</a></span>
+				      <span><a href="#">{{anniversary.name}}'s<br>{{anniversary.numAnniversary}} year!</a></span>
 				   </slide>
 				</carousel>
 			</div>
