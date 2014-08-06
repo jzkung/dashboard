@@ -4,13 +4,13 @@
 			<div class="dummy"></div>
 			<div class="content-container">
 				<span class="event-panel">
-					<ng-pluralize count="{{teamBirthdays.birthdays.length}}" when="{
+					<ng-pluralize count="{{birthdays.length}}" when="{
 			                     'one': '1 birthday today!',
 			                     'other': '{} birthdays today!'}">
 					</ng-pluralize>
 				</span>
 				<carousel interval="myInterval" class="carousel">
-				   <slide ng-repeat="birthday in teamBirthdays.birthdays" active="birthday.active">
+				   <slide ng-repeat="birthday in birthdays" active="birthday.active">
 						<img ng-src="{{birthday.image}}">
 				   	<span><a href="#">{{birthday.first_name}}'s<br>{{birthday.age}}<br>birthday!</a></span>
 				   </slide>

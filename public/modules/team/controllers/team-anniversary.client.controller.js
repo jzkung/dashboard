@@ -1,16 +1,18 @@
 'use strict';
 
-var anniversaries = [
-	{
-		first_name: 'Sara',
-		last_name: 'Hua',
-		year: '2nd',
-		image: 'modules/team/img/sara.png'
-	}
-];
+angular.module('team').controller('TeamAnniversaryController', ['$scope', '$animate','teamFactory', 'filterFilter',
+	function($scope, $animate, teamFactory, filterFilter) {
+		$scope.anniversaries = [];
 
-angular.module('team').controller('TeamAnniversaryController', ['$scope', '$animate',
-	function($scope, $animate) {
-		this.anniversaries = anniversaries;
+		$scope.fetchBasicWorkerInfoForManager = function (managerName){
+			teamFactory.fetchBasicWorkerInfoForManager(managerName).then(
+				function(event){
+					console.log('in anniversary controller method - inside callback function');
+					$scope.anniversaries = filterFilter(event, {isAnniversaryToday : true});
+				});
+		};
+
+		/* TODO : use logged in user name as parameter */
+		$scope.fetchBasicWorkerInfoForManager('nverma');
 	}
 ]);
