@@ -12,11 +12,11 @@
 				<b>Hire date</b>: {{ employee.hireDate }}
 			</div>
 		</div>
-		<button ng-show="hasMoreToShow()" ng-click="showAll()">
-			View All
-		</button>
-		<button ng-show="!hasMoreToShow()" ng-click="hideSome()">
-			View Fewer
-		</button>
 	</div>
+	<div ng-show="hasMoreToShow()" ng-click="showAll()" class="center">
+			<a>View All</a>
+		</div>
+		<div ng-show="!hasMoreToShow()" ng-click="hideSome()" class="center">
+			<a>View Fewer</a>
+		</div>
 </div>

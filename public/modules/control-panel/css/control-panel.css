@@ -8,7 +8,7 @@ body {
 	background-color: #f3f3f3;
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+a { cursor: pointer; }
 
 h1.title {
 	margin-bottom: 30px;
