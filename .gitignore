@@ -22,8 +22,6 @@ node_modules/karma-phantomjs-launcher
 node_modules/load-grunt-tasks
 node_modules/should
 node_modules/supertest
-node_modules/superagent
-node_modules/superagent-proxy
 
 # Compiled source #
 ###################
