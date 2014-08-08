@@ -11,7 +11,7 @@
 		return {
 		fetchBasicWorkerInfoForManager: function (managerName) {
 			var deferred = $q.defer();
-			var url = '/teams/getInfoFromServer/'+ managerName;
+			var url = '/api/teams/getInfoFromServer/'+ managerName;
 			$http ({
 				method: 'GET',
 				url: url
