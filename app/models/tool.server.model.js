@@ -6,14 +6,17 @@
  var mongoose = require('mongoose'),
  Schema = mongoose.Schema;
 
-/**
- * Tool Schema
- */
- var ToolSchema = new Schema({
- 	name: {type: String, required: true},
- 	description: {type: String},
- 	url: {type: String},
- 	userGroups: {type: [Schema.Types.ObjectId], ref: 'Usergroup'}
+ var ItemSchema = new Schema({
+  name: {type: String, required: true},
+  description: {type: String},
+  url: {type: String},
+  userGroups: {type: [String]}
  });
 
- mongoose.model('Tool', ToolSchema);
+var ToolSchema = new Schema({
+  category: {type: String, required: true},
+  userGroups: {type: [String]},
+  items: {type: [ItemSchema]}
+ });
+
+mongoose.model('Tool', ToolSchema);
