@@ -38,11 +38,20 @@ var toolbox = [
 	}
 ];
 
-angular.module('tools').controller('ToolsController', ['$scope',
-	function($scope) {
+angular.module('tools').controller('ToolsController', ['$scope', 'Tools',
+	function($scope, Tools) {
 		$scope.widget = {
 			title: 'My Tools'
 		};
 		this.toolbox = toolbox;
+
+		$scope.getAllTools = function (){
+			Tools.getAllTools().then(
+				function(event){
+					console.log(event);
+				});
+		};
+
+		$scope.getAllTools();
 	}
 ]);
