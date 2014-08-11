@@ -6,7 +6,7 @@ angular.module('control-panel').config(['$stateProvider',
 		// Control panel state routing
 		$stateProvider.
 		state('control-panel', {
-			url: '/',
+			url: '/control-panel',
 			templateUrl: 'modules/control-panel/views/control-panel.client.view.html'
 		}).
 		state('widget', {

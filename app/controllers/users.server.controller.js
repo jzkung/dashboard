@@ -85,7 +85,7 @@ exports.signin = function(req, res, next) {
 				if (err) {
 					res.send(400, err);
 				} else {
-					res.jsonp(user);
+					res.redirect('/#!/control-panel');
 				}
 			});
 		}
@@ -191,7 +191,7 @@ exports.changePassword = function(req, res, next) {
  */
 exports.signout = function(req, res) {
 	req.logout();
-	res.redirect('/');
+	res.redirect('/#!/signin');
 };
 
 /**
