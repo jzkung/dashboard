@@ -22,11 +22,13 @@ angular.module('core').controller('HeaderController', ['$scope', '$http', '$loca
 				$scope.error = response.message;
 				
 			});
-		}
+		};
 
 		// Collapsing the menu after navigation
 		$scope.$on('$stateChangeSuccess', function() {
 			$scope.isCollapsed = false;
 		});
+
+
 	}
 ]);
