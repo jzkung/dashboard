@@ -7,8 +7,8 @@
 			<div class="div-table-cell">
 				<a ng-href="{{ employee.link }}">{{ employee.name }} </a><br>
 				{{ employee.title }} <br>
-				<b>Birthday</b>: {{ employee.birthday }} <br>
-				<b>Hire date</b>: {{ employee.hireDate }}
+				<b>Birthday</b>: {{ employee.birthday | date: 'MMM d'}} <br>
+				<b>Hire date</b>: {{ employee.hireDate | date: 'MMM d, yyyy'}}
 			</div>
 		</div>
 	</div>
