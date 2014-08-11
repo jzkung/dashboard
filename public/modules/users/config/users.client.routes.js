@@ -22,7 +22,7 @@ angular.module('users').config(['$stateProvider',
 			templateUrl: 'modules/users/views/signup.client.view.html'
 		}).
 		state('signin', {
-			url: '/signin',
+			url: '/',
 			templateUrl: 'modules/users/views/signin.client.view.html'
 		});
 	}
