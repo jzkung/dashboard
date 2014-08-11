@@ -1,0 +1,19 @@
+div.div-table-cell.admin {
+	border-bottom: 1px solid black;
+}
+
+div.div-table.admin {
+	border-spacing: 0;
+}
+
+div.div-table-header.admin {
+	display:table-cell;
+	font-weight: bold;
+	border-bottom: 2px solid black;
+}
+
+div.table-header {
+	font-size:1.5em;
+	display:inline;
+	font-weight: bold;
+}

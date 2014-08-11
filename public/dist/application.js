@@ -44,6 +44,10 @@ angular.element(document).ready(function () {
   angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
 });'use strict';
 // Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('admin-tools');'use strict';
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('admin');'use strict';
+// Use applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('control-panel');'use strict';
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core');'use strict';
@@ -55,6 +59,101 @@ ApplicationConfiguration.registerModule('team');'use strict';
 ApplicationConfiguration.registerModule('tools');'use strict';
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users');'use strict';
+//Setting up route
+angular.module('admin-tools').config([
+  '$stateProvider',
+  function ($stateProvider) {
+    // Admin tools state routing
+    $stateProvider.state('admin-tools', {
+      url: '/admin-tools',
+      templateUrl: 'modules/admin-tools/views/admin-tools.client.view.html'
+    });
+  }
+]);'use strict';
+var tools = [
+    {
+      category: 'Daily',
+      users: [{ group: 'workers' }],
+      links: [
+        {
+          name: 'PrimeTime',
+          description: 'a place to manage your timesheet!',
+          url: 'http://www.primetime.com'
+        },
+        {
+          name: 'Workday',
+          description: 'a place to look at your team and stuff!',
+          url: 'http://www.workday.com'
+        },
+        {
+          name: 'Yelp',
+          description: 'a place to look for good foods!',
+          url: 'http://www.yelp.com'
+        }
+      ]
+    },
+    {
+      category: 'Miscellaneous',
+      users: [
+        { group: 'admin' },
+        { group: 'hr' }
+      ],
+      links: [
+        {
+          name: 'HR Insight',
+          description: 'a place to go when you have questions!',
+          url: 'http://insight.intuit.com'
+        },
+        {
+          name: 'Onboarding',
+          description: 'the place you went to onboard and stuff!',
+          url: 'http://www.intuit.com'
+        }
+      ]
+    }
+  ];
+angular.module('admin-tools').controller('AdminToolsController', [
+  '$scope',
+  function ($scope) {
+    this.tools = tools;
+    $scope.myData = [
+      {
+        name: 'Moroni',
+        age: 50
+      },
+      {
+        name: 'Tiancum',
+        age: 43
+      }
+    ];
+    $scope.gridOptions = { data: 'myData' };
+  }
+]);'use strict';
+angular.module('admin-tools').directive('adminTools', [function () {
+    return {
+      templateUrl: 'modules/admin-tools/views/admin-tools.client.view.html',
+      restrict: 'E'
+    };
+  }]);'use strict';
+//Setting up route
+angular.module('admin').config([
+  '$stateProvider',
+  function ($stateProvider) {
+    // Admin state routing
+    $stateProvider.state('admin-widget', {
+      url: '/admin-widget',
+      templateUrl: 'modules/admin/views/admin-widget.client.view.html'
+    }).state('admin', {
+      url: '/admin',
+      templateUrl: 'modules/admin/views/admin.client.view.html'
+    });
+  }
+]);'use strict';
+angular.module('admin').controller('AdminController', [
+  '$scope',
+  function ($scope) {
+  }
+]);'use strict';
 //Setting up route
 angular.module('control-panel').config([
   '$stateProvider',
@@ -79,6 +178,17 @@ angular.module('control-panel').controller('WidgetController', [
   function ($scope) {
   }
 ]);'use strict';
+angular.module('control-panel').directive('draggable', [function () {
+    return {
+      template: '<div></div>',
+      restrict: 'E',
+      link: function postLink(scope, element, attrs) {
+        // Draggable directive logic
+        // ...
+        element.text('this is the draggable directive');
+      }
+    };
+  }]);'use strict';
 angular.module('control-panel').directive('widget', [function () {
     return {
       templateUrl: 'modules/control-panel/views/widget.client.view.html',

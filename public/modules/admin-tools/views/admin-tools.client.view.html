@@ -1,0 +1,24 @@
+<div data-ng-controller="AdminToolsController as adminTools" class="container">
+	<div class="table-header">My Tools</div>
+	<div class="admin-buttons" style="display:inline-block; float:right">
+		<button>New Category</button> <button>New Item</button>
+	</div><br><br>
+	<div class="div-table admin">
+		<div class="div-table-row admin">
+			<div class="div-table-header admin">
+				Name
+			</div>
+			<div class="div-table-header admin">
+				Number of Items
+			</div>
+			<div class="div-table-header admin">
+				Actions
+			</div>
+		</div>
+		<div class="div-table-row admin" ng-repeat="tool in adminTools.tools">
+			<div class="div-table-cell admin">{{ tool.category }}</div>
+			<div class="div-table-cell admin">{{ tool.links.length }}</div>
+			<div class="div-table-cell admin"><button>Delete</button></div>
+		</div>
+	</div>
+</div>

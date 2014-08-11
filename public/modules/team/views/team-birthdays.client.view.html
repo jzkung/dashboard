@@ -11,7 +11,7 @@
 				</span>
 				<carousel interval="myInterval" class="carousel">
 				   <slide ng-repeat="birthday in teamBirthdays.birthdays" active="birthday.active">
-						<img ng-src="{{birthday.image}}">
+						<img ng-src="{{birthday.image}}"/>
 				   	<span><a href="#">{{birthday.first_name}}'s<br>{{birthday.age}}<br>birthday!</a></span>
 				   </slide>
 				</carousel>
