@@ -74,7 +74,12 @@ exports.getInfoFromServer = function (req, res){
 	var url = 'http://localhost:8080/workerService/ws/api/v1/workers/' + managerId + '/directReports';
 	request
 	.get(url)
+	.on('error', function(error){
+		console.log(error);
+		return res.json(500, error);
+	})
 	.end(function(response){
+
 		var workerInfo = [];
 		if (response.error) {
 			console.log('error is ' + response.error.message);
