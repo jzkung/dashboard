@@ -11,6 +11,7 @@ var ApplicationConfiguration = function () {
         'ngSanitize',
         'ui.router',
         'ui.bootstrap',
+        'mm.foundation',
         'ui.utils'
       ];
     // Add a new vertical module
@@ -776,7 +777,7 @@ angular.module('users').config([
               $location.path('signin');
               break;
             case 403:
-              // Add unauthorized behaviour 
+              // Add unauthorized behaviour
               break;
             }
             return $q.reject(rejection);
@@ -852,7 +853,7 @@ angular.module('users').controller('SettingsController', [
     // If user is not signed in then redirect back home
     if (!$scope.user)
       $location.path('/');
-    // Check if there are additional accounts 
+    // Check if there are additional accounts
     $scope.hasConnectedAdditionalSocialAccounts = function (provider) {
       for (var i in $scope.user.additionalProvidersData) {
         return true;

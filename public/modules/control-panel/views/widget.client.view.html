@@ -1,16 +1,27 @@
-<section class="widget col-xs-12 col-sm-6 col-md-4">
+<!-- <div class="widget small-12 medium-6 large-4">
 	<accordion close-others=false>
     	<accordion-group is-open="status.open">
 	    	<accordion-heading>
 	    		{{ widget.title }} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 	    	</accordion-heading>
-	    	<section ng-transclude></section>
+	    	<div ng-transclude></div>
 	   </accordion-group>
   	</accordion>
-</section>
-<!-- <section class="col-xs-12 col-sm-6 col-md-4">
-	<div>
-		<div><h3>{{ widget.title }}</h3></div>
-		<div ng-transclude></div>
-	</div>
-</section> -->
+</div> -->
+
+
+  <accordion close-others="oneAtATime">
+    <accordion-group heading="Static Header, initially expanded" is-open="true">
+      This content is straight in the template.
+    </accordion-group>
+
+  </accordion>
+
+<!-- <dl class="accordion" data-accordion>
+  <dd class="accordion-navigation">
+    <a href="#!/.panel2">{{ widget.title }}</a>
+    <div class="panel2" class="content active">
+      <div ng-transclude></div>
+    </div>
+  </dd>
+</dl> -->
