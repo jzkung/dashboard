@@ -32,7 +32,7 @@ angular.module('team').controller('TeamEmployeesController', ['$scope', 'teamFac
 		};
 
 		/* TODO : use logged in user name as parameter */
-		//$scope.fetchBasicWorkerInfoForManager('nverma'); 
+		$scope.fetchBasicWorkerInfoForManager('nverma'); 
 
 
 		$scope.$watch('emps', function (newValue) {
