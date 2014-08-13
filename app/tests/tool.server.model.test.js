@@ -74,7 +74,7 @@
  	app.get('/api/tools', function(req, res){
  		Tool.find(function (err, tools) {
  			if (err) {
- 				return next(err);
+ 				return err;
  			}
  			var toolResult = [];
  			_.forEach (tools, function (tool){
@@ -87,7 +87,7 @@
  		});
  	});
 
- 	describe('GET /api/tools', function(){
+ 	describe('Get all tools', function(){
  		it('should respond with json', function(done){
  			request(app)
  			.get('/api/tools')
@@ -97,7 +97,7 @@
  		});
  	});
 
- 	describe('GET /api/toolsList', function(){
+ 	describe('Get tools from incorrect route', function(){
  		it('should respond with error', function(done){
  			request(app)
  			.get('/api/toolsList')

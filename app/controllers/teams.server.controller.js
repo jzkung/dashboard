@@ -5,7 +5,8 @@
  */
  var request = require('superagent');
  var moment = require('moment');
-//var agent = superagent.agent();
+ var  _ = require('lodash');
+
 
 var checkBirthdayToday = function (birth_date){
 	if (!birth_date){ //if birth date field is null
@@ -88,8 +89,7 @@ exports.getInfoFromServer = function (req, res){
 		else {
 			console.log('status is  ' + response.status );
 			var workerList = response.body.workers;
-			for (var i = 0; i < 10; i++){
-				var data = workerList[i];				
+			_.forEach(workerList, function(data){
 				workerInfo.push ({
 					name: data.WORKER_NAMES[0].FIRST_NAME + ' ' + data.WORKER_NAMES[0].LAST_NAME,
 					title: data.BUSINESS_TITLE,
@@ -101,7 +101,8 @@ exports.getInfoFromServer = function (req, res){
 					isAnniversaryToday: checkAnniversaryToday(data.HIRE_DATE),
 					numAnniversary: calculateNumAnniversary(data.HIRE_DATE)
 				});
-			}
+			});
+
 			/* adding data for testing */
 			workerInfo.push ({
 				name: 'shweta',
@@ -127,7 +128,7 @@ exports.getInfoFromServer = function (req, res){
 			});
 			/* end of test data */
 		}
-		//return res.json (200, response.body);
+
 		return res.json(200, workerInfo);
 	});
 };
