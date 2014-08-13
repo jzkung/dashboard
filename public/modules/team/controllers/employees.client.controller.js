@@ -21,9 +21,9 @@ angular.module('team').controller('TeamEmployeesController', ['$scope', 'teamFac
 			return index < $scope.employeesToShow;
 		};
 
-		$scope.fetchBasicWorkerInfoForManager = function (managerName){
+		$scope.fetchBasicWorkerInfoForManager = function (){
 			console.log('in employee controller method');
-			teamFactory.fetchBasicWorkerInfoForManager(managerName).then(
+			teamFactory.fetchBasicWorkerInfoForManager().then(
 				function(event){
 					$scope.emps = event;
 					employees = event;
@@ -32,7 +32,7 @@ angular.module('team').controller('TeamEmployeesController', ['$scope', 'teamFac
 		};
 
 		/* TODO : use logged in user name as parameter */
-		$scope.fetchBasicWorkerInfoForManager('nverma'); 
+		$scope.fetchBasicWorkerInfoForManager(); 
 
 
 		$scope.$watch('emps', function (newValue) {

@@ -8,7 +8,7 @@
  var  _ = require('lodash');
 
 
-var checkBirthdayToday = function (birth_date){
+ var checkBirthdayToday = function (birth_date){
 	if (!birth_date){ //if birth date field is null
 		return false;
 	}
@@ -62,17 +62,12 @@ var getISOStringFromDate = function (date_info){
 		return new Date(date_info.replace('-','/')).toISOString();
 	}
 	else {
-		return null;
+		return 'Unknown';
 	}
 };
 
-var getDisplayDate = function (date_info){
-
-};
-
-exports.getInfoFromServer = function (req, res){
-	var managerId = req.params.managerId;
-	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/' + managerId + '/directReports';
+var getWorkerInfo = function (networkId, req, res){
+	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/' + networkId + '/directReports';
 	request
 	.get(url)
 	.on('error', function(error){
@@ -86,8 +81,8 @@ exports.getInfoFromServer = function (req, res){
 			console.log('error is ' + response.error.message);
 			return res.json(500, response.error.message);
 		} 
-		else {
-			console.log('status is  ' + response.status );
+		else if (response.body.workers.length>0) {
+			console.log('status is ' + response.status );
 			var workerList = response.body.workers;
 			_.forEach(workerList, function(data){
 				workerInfo.push ({
@@ -127,8 +122,36 @@ exports.getInfoFromServer = function (req, res){
 				numAnniversary: calculateNumAnniversary('2001-08-07')
 			});
 			/* end of test data */
+
+			return res.json(200, workerInfo);
+		}
+		else {
+			return res.json(204, 'No data');
 		}
 
-		return res.json(200, workerInfo);
+		
+	});
+};
+
+exports.getInfoFromServer = function (req, res){
+	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/search?firstName=' + req.user.firstName + '&lastName=' + req.user.lastName;
+	request
+	.get(url)
+	.on('error', function(error){
+		console.log(error);
+		return res.json(500, error);
+	})
+	.end(function(response){
+		if (response.error) {
+			console.log('error is ' + response.error.message);
+			return res.json(500, response.error.message);
+		} 
+		else if (response.body.workers.length > 0){
+			var networkId = response.body.workers[0].NETWORK_ID;
+			getWorkerInfo(networkId, req, res);
+		}
+		else {
+			return res.json(204, 'No data');
+		}
 	});
 };
