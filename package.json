@@ -29,6 +29,7 @@
     "helmet": "~0.2.1",
     "lodash": "~2.4.1",
     "method-override": "~1.0.0",
+    "mocha": "^1.21.4",
     "moment": "*",
     "mongoose": "~3.8.8",
     "morgan": "~1.1.0",

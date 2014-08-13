@@ -12,9 +12,9 @@ var checkBirthdayToday = function (birth_date){
 		return false;
 	}
 	else {
-		var bd = new Date(birth_date.replace('-','/'));
-		var today = new Date();
-		if (bd.getMonth() === today.getMonth() && bd.getDate() === today.getDate()) {
+		var bd = moment(birth_date);
+		var today = moment();
+		if (bd.month() === today.month() && bd.date() === today.date()){
 			return true;
 		}
 		else {
@@ -28,9 +28,9 @@ var checkAnniversaryToday = function (hire_date){
 		return false;
 	}
 	else {
-		var bd = new Date(hire_date.replace('-','/'));
-		var today = new Date();
-		if (bd.getMonth() === today.getMonth() && bd.getDate() === today.getDate()) {
+		var hd = moment(hire_date);
+		var today = moment();
+		if (hd.month() === today.month() && hd.date() === today.date()){
 			return true;
 		}
 		else {
@@ -45,9 +45,9 @@ var calculateNumAnniversary = function (hire_date){
 	}
 	else {
 		if (checkAnniversaryToday){
-			var hd = new Date(hire_date.replace('-','/'));
-			var today = new Date();
-			return today.getFullYear() - hd.getFullYear();
+			var hd  = moment(hire_date);
+			var today = moment();
+			return today.diff(hd,'years');
 		}
 		else {
 			return 0;
@@ -71,7 +71,7 @@ var getDisplayDate = function (date_info){
 
 exports.getInfoFromServer = function (req, res){
 	var managerId = req.params.managerId;
-	var url = 'http://localhost:8080/workerService/ws/api/v1/workers/' + managerId + '/directReports';
+	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/' + managerId + '/directReports';
 	request
 	.get(url)
 	.on('error', function(error){
@@ -106,13 +106,13 @@ exports.getInfoFromServer = function (req, res){
 			workerInfo.push ({
 				name: 'shweta',
 				title: 'a',
-				birthday: getISOStringFromDate('1988-08-07'),
+				birthday: getISOStringFromDate('1988-08-12'),
 				hireDate: getISOStringFromDate('2001-08-07'),
 				link: 'http://www.workday.com',
 				image: 'modules/team/img/user-icon.png',
-				isBirthdayToday: checkBirthdayToday('1988-08-07'), 
-				isAnniversaryToday: checkAnniversaryToday('2001-08-07'),
-				numAnniversary: calculateNumAnniversary('2001-08-07')
+				isBirthdayToday: checkBirthdayToday('1988-08-12'), 
+				isAnniversaryToday: checkAnniversaryToday('2001-08-12'),
+				numAnniversary: calculateNumAnniversary('2001-08-12')
 			});
 			workerInfo.push ({
 				name: 'anagha',
