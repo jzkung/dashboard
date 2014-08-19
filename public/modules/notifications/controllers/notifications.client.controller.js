@@ -1,28 +1,52 @@
 'use strict';
 
-var alerts = [
-	{
-		title: 'Finish Performance Review',
-		link: 'http://www.workday.com',
-		dueDate: 'tomorrow'
-	},
-	{
-		title: 'Submit fitness reimbursement',
-		link: 'http://www.workday.com',
-		dueDate: '7/28/2014'
-	},
-	{
-		title: 'Scheduled maintenance',
-		link: 'http://www.workday.com',
-		dueDate: 'today'
-	}
-];
 
-angular.module('notifications').controller('NotificationsController', ['$scope',
-	function($scope) {
-		$scope.widget = {
+angular.module('notifications').filter('displayFilter', function() {
+	return function(dateString) {
+		if(dateString === null){
+			dateString = 'no due date';
+			return dateString;
+		}
+		else{
+			return moment(dateString).calendar();
+		}
+	};
+});
+
+angular.module('notifications').controller('NotificationsController', ['$scope', 'Notifications',
+	function($scope, Notifications) {
+		$scope.widget = {                        
 			title: 'My Notifications'
 		};
-		this.alerts = alerts;
-	}
-]);
+
+		$scope.getAllNotifications = function (){
+			Notifications.getAllNotifications().then(
+				function(event){
+					$scope.notificationbox = event;
+				});
+		};
+		
+		$scope.dismissNotification = function (NotificationId){
+			console.log(' call 1');
+			Notifications.dismissNotification(NotificationId).then(
+				function(event){
+					console.log('entered');
+				});
+			$scope.getAllNotifications();
+		};
+
+		$scope.getAllNotifications();
+	}]);
+
+
+
+
+		// var d = new Date();
+		
+		// var day = d.getDate() < 10 ? '0' + (d.getDate()+1) : (d.getDate()+1) ;
+		// var month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+		// var year = d.getFullYear();
+		// $scope.dateToday = date.parse(year + '-' + month + '-' + day);
+
+
+

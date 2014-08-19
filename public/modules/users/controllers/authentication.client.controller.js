@@ -6,14 +6,16 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 
 		//If user is signed in then redirect back home
 		if ($scope.authentication.user) $location.path('/');
+		console.log('User is ' + JSON.stringify($scope.authentication.user));
 
 		$scope.signup = function() {
 			$http.post('/auth/signup', $scope.credentials).success(function(response) {
+				console.log('Somebody called signup');
 				//If successful we assign the response to the global user model
 				$scope.authentication.user = response;
 
 				//And redirect to the index page
-				$location.path('/');
+				$location.path('/control-panel');
 			}).error(function(response) {
 				$scope.error = response.message;
 			});
@@ -21,6 +23,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 
 		$scope.signin = function() {
 			$http.post('/auth/signin', $scope.credentials).success(function(response) {
+				console.log('Somebody called signin');
 				//If successful we assign the response to the global user model
 				$scope.authentication.user = response;
 

@@ -1,6 +1,11 @@
+
 <section data-ng-controller="NotificationsController as notifications">
-	<section class ng-repeat="alert in notifications.alerts">
-		<a ng-href="{{ alert.link }}">{{ alert.title }}</a> <br>
-		due {{ alert.dueDate }}
+	<p ng-show="!notificationbox.length"><i>There are no currently notifications to display</i></p>
+	<section ng-repeat="notification in notificationbox">
+		<button type="button" ng-click="dismissNotification(notification.Id)" ></button>
+		<a ng-href="{{ notification.link }}">{{ notification.title }}</a> <br>
+		Description: {{notification.description}}<br>
+		Due: {{notification.endDate | displayFilter}}
 	</section>
 </section>
+

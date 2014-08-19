@@ -93,6 +93,18 @@ exports.signin = function(req, res, next) {
 };
 
 /**
+ * Dismiss a notification
+ */
+exports.dismissNotification = function(req, res, next){
+	var notificationId = req.query.id;
+	console.log('Passed NotID : '+ req.query.id);
+	User.update({'username': req.user.username}, {$push: {'dismissedNotificationIds': notificationId}}).exec(function(err) {
+		if (err) return err;
+	});
+
+};
+
+/**
  * Update user details
  */
 exports.update = function(req, res) {

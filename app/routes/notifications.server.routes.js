@@ -1,8 +1,7 @@
 'use strict';
 
 module.exports = function(app) {
-	// Routing logic   
-	// ...
 
 	var notifications = require('../../app/controllers/notifications');
+	app.route('/api/notifications').get(notifications.list);
 };

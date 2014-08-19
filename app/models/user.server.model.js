@@ -75,6 +75,8 @@ var UserSchema = new Schema({
 		}],
 		default: ['user']
 	},
+	dismissedNotificationIds: 
+		{type: [String]},
 	updated: {
 		type: Date
 	},

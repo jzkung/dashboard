@@ -15,7 +15,7 @@ angular.module('core').controller('HeaderController', ['$scope', '$http', '$loca
 			$http.get('/auth/signout').success(function(response) {
 				//If successful we assign the response to the global user model
 				console.log('Success while calling $scope.signout');
-				
+				$scope.authentication.user = null;
 				$location.path('/signin');
 			}).error(function(response) {
 				console.log('Error while calling $scope.signout');
