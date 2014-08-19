@@ -5,16 +5,17 @@
  */
  var request = require('superagent');
  var moment = require('moment');
-//var agent = superagent.agent();
+ var  _ = require('lodash');
 
-var checkBirthdayToday = function (birth_date){
+
+ var checkBirthdayToday = function (birth_date){
 	if (!birth_date){ //if birth date field is null
 		return false;
 	}
 	else {
-		var bd = new Date(birth_date.replace('-','/'));
-		var today = new Date();
-		if (bd.getMonth() === today.getMonth() && bd.getDate() === today.getDate()) {
+		var bd = moment(birth_date);
+		var today = moment();
+		if (bd.month() === today.month() && bd.date() === today.date()){
 			return true;
 		}
 		else {
@@ -28,9 +29,9 @@ var checkAnniversaryToday = function (hire_date){
 		return false;
 	}
 	else {
-		var bd = new Date(hire_date.replace('-','/'));
-		var today = new Date();
-		if (bd.getMonth() === today.getMonth() && bd.getDate() === today.getDate()) {
+		var hd = moment(hire_date);
+		var today = moment();
+		if (hd.month() === today.month() && hd.date() === today.date()){
 			return true;
 		}
 		else {
@@ -45,9 +46,9 @@ var calculateNumAnniversary = function (hire_date){
 	}
 	else {
 		if (checkAnniversaryToday){
-			var hd = new Date(hire_date.replace('-','/'));
-			var today = new Date();
-			return today.getFullYear() - hd.getFullYear();
+			var hd  = moment(hire_date);
+			var today = moment();
+			return today.diff(hd,'years');
 		}
 		else {
 			return 0;
@@ -61,30 +62,29 @@ var getISOStringFromDate = function (date_info){
 		return new Date(date_info.replace('-','/')).toISOString();
 	}
 	else {
-		return null;
+		return 'Unknown';
 	}
 };
 
-var getDisplayDate = function (date_info){
-
-};
-
-exports.getInfoFromServer = function (req, res){
-	var managerId = req.params.managerId;
-	var url = 'http://localhost:8080/workerService/ws/api/v1/workers/' + managerId + '/directReports';
+var getWorkerInfo = function (networkId, req, res){
+	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/' + networkId + '/directReports';
 	request
 	.get(url)
+	.on('error', function(error){
+		console.log(error);
+		return res.json(500, error);
+	})
 	.end(function(response){
+
 		var workerInfo = [];
 		if (response.error) {
 			console.log('error is ' + response.error.message);
 			return res.json(500, response.error.message);
 		} 
-		else {
-			console.log('status is  ' + response.status );
+		else if (response.body.workers.length>0) {
+			console.log('status is ' + response.status );
 			var workerList = response.body.workers;
-			for (var i = 0; i < 10; i++){
-				var data = workerList[i];				
+			_.forEach(workerList, function(data){
 				workerInfo.push ({
 					name: data.WORKER_NAMES[0].FIRST_NAME + ' ' + data.WORKER_NAMES[0].LAST_NAME,
 					title: data.BUSINESS_TITLE,
@@ -96,18 +96,19 @@ exports.getInfoFromServer = function (req, res){
 					isAnniversaryToday: checkAnniversaryToday(data.HIRE_DATE),
 					numAnniversary: calculateNumAnniversary(data.HIRE_DATE)
 				});
-			}
+			});
+
 			/* adding data for testing */
 			workerInfo.push ({
 				name: 'shweta',
 				title: 'a',
-				birthday: getISOStringFromDate('1988-08-07'),
+				birthday: getISOStringFromDate('1988-08-12'),
 				hireDate: getISOStringFromDate('2001-08-07'),
 				link: 'http://www.workday.com',
 				image: 'modules/team/img/user-icon.png',
-				isBirthdayToday: checkBirthdayToday('1988-08-07'), 
-				isAnniversaryToday: checkAnniversaryToday('2001-08-07'),
-				numAnniversary: calculateNumAnniversary('2001-08-07')
+				isBirthdayToday: checkBirthdayToday('1988-08-12'), 
+				isAnniversaryToday: checkAnniversaryToday('2001-08-12'),
+				numAnniversary: calculateNumAnniversary('2001-08-12')
 			});
 			workerInfo.push ({
 				name: 'anagha',
@@ -121,8 +122,36 @@ exports.getInfoFromServer = function (req, res){
 				numAnniversary: calculateNumAnniversary('2001-08-07')
 			});
 			/* end of test data */
+
+			return res.json(200, workerInfo);
 		}
-		//return res.json (200, response.body);
-		return res.json(200, workerInfo);
+		else {
+			return res.json(204, 'No data');
+		}
+
+		
+	});
+};
+
+exports.getInfoFromServer = function (req, res){
+	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/search?firstName=' + req.user.firstName + '&lastName=' + req.user.lastName;
+	request
+	.get(url)
+	.on('error', function(error){
+		console.log(error);
+		return res.json(500, error);
+	})
+	.end(function(response){
+		if (response.error) {
+			console.log('error is ' + response.error.message);
+			return res.json(500, response.error.message);
+		} 
+		else if (response.body.workers.length > 0){
+			var networkId = response.body.workers[0].NETWORK_ID;
+			getWorkerInfo(networkId, req, res);
+		}
+		else {
+			return res.json(204, 'No data');
+		}
 	});
 };
