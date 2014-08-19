@@ -4,11 +4,13 @@
 			<div class="dummy"></div>
 			<div class="content-container">
 				<span class="event-panel">
-					<ng-pluralize count="{{anniversaries.length}}" when="{
+<!-- 					<ng-pluralize count="{{anniversaries.length}}" when="{
 				                     'one': '1 anniversary today!',
 				                     'other': '{} anniversaries today!'}">
-					</ng-pluralize>
+					</ng-pluralize> -->
+					{{anniversaries.length}} anniversaries today! 
 				</span>
+
 				<carousel interval="myInterval" class="carousel">
 				   <slide ng-repeat="anniversary in anniversaries">
 					   <img ng-src="{{anniversary.image}}">

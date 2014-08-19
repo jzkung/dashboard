@@ -40,6 +40,21 @@ var checkAnniversaryToday = function (hire_date){
 	}
 };
 
+var addOrdinalSuffix = function ordinal_suffix_of(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+}
+
 var calculateNumAnniversary = function (hire_date){
 	if (!hire_date){
 		return 0;
@@ -48,7 +63,7 @@ var calculateNumAnniversary = function (hire_date){
 		if (checkAnniversaryToday){
 			var hd  = moment(hire_date);
 			var today = moment();
-			return today.diff(hd,'years');
+			return addOrdinalSuffix(today.diff(hd,'years'));
 		}
 		else {
 			return 0;
@@ -59,7 +74,7 @@ var calculateNumAnniversary = function (hire_date){
 var getISOStringFromDate = function (date_info){
 
 	if (date_info){
-		return new Date(date_info.replace('-','/')).toISOString();
+		return moment(date_info).toISOString()
 	}
 	else {
 		return 'Unknown';
@@ -71,18 +86,18 @@ var getWorkerInfo = function (networkId, req, res){
 	request
 	.get(url)
 	.on('error', function(error){
-		console.log(error);
+		console.log('Error is ' + error);
 		return res.json(500, error);
 	})
 	.end(function(response){
 
 		var workerInfo = [];
 		if (response.error) {
-			console.log('error is ' + response.error.message);
+			console.log('Error is ' + response.error.message);
 			return res.json(500, response.error.message);
 		} 
 		else if (response.body.workers.length>0) {
-			console.log('status is ' + response.status );
+			console.log('Response status: ' + response.status );
 			var workerList = response.body.workers;
 			_.forEach(workerList, function(data){
 				workerInfo.push ({
@@ -102,31 +117,31 @@ var getWorkerInfo = function (networkId, req, res){
 			workerInfo.push ({
 				name: 'shweta',
 				title: 'a',
-				birthday: getISOStringFromDate('1988-08-12'),
-				hireDate: getISOStringFromDate('2001-08-07'),
+				birthday: getISOStringFromDate('1988-08-19'),
+				hireDate: getISOStringFromDate('2013-08-19'),
 				link: 'http://www.workday.com',
 				image: 'modules/team/img/user-icon.png',
-				isBirthdayToday: checkBirthdayToday('1988-08-12'), 
-				isAnniversaryToday: checkAnniversaryToday('2001-08-12'),
-				numAnniversary: calculateNumAnniversary('2001-08-12')
+				isBirthdayToday: checkBirthdayToday('1988-08-19'), 
+				isAnniversaryToday: checkAnniversaryToday('2001-08-19'),
+				numAnniversary: calculateNumAnniversary('2013-08-19')
 			});
 			workerInfo.push ({
 				name: 'anagha',
 				title: 'a',
 				birthday: getISOStringFromDate('1988-08-05'),
-				hireDate: getISOStringFromDate('2001-08-07'),
+				hireDate: getISOStringFromDate('2001-08-19'),
 				link: 'http://www.workday.com',
 				image: 'modules/team/img/user-icon.png',
 				isBirthdayToday: checkBirthdayToday('1988-08-05'), 
-				isAnniversaryToday: checkAnniversaryToday('2001-08-07'),
-				numAnniversary: calculateNumAnniversary('2001-08-07')
+				isAnniversaryToday: checkAnniversaryToday('2001-08-19'),
+				numAnniversary: calculateNumAnniversary('2001-08-19')
 			});
 			/* end of test data */
 
 			return res.json(200, workerInfo);
 		}
 		else {
-			return res.json(204, 'No data');
+			return res.json(204, 'No data found for this user');
 		}
 
 		
@@ -138,20 +153,21 @@ exports.getInfoFromServer = function (req, res){
 	request
 	.get(url)
 	.on('error', function(error){
-		console.log(error);
+		console.log('Error is ' + error);
 		return res.json(500, error);
 	})
 	.end(function(response){
 		if (response.error) {
-			console.log('error is ' + response.error.message);
+			console.log('Error is ' + response.error.message);
 			return res.json(500, response.error.message);
 		} 
 		else if (response.body.workers.length > 0){
+			console.log('Network ID found for user');
 			var networkId = response.body.workers[0].NETWORK_ID;
 			getWorkerInfo(networkId, req, res);
 		}
 		else {
-			return res.json(204, 'No data');
+			return res.json(204, 'No data found for this user');
 		}
 	});
 };

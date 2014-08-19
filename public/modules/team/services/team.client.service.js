@@ -9,9 +9,9 @@
  	function($http, $log, $q){
  		var workers = [];
 		return {
-		fetchBasicWorkerInfoForManager: function (managerName) {
+		fetchBasicWorkerInfoForManager: function () {
 			var deferred = $q.defer();
-			var url = '/api/teams/getInfoFromServer/'+ managerName;
+			var url = '/api/teams/getInfoFromServer';
 			$http ({
 				method: 'GET',
 				url: url
