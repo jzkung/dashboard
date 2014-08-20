@@ -2,10 +2,11 @@
 <section data-ng-controller="NotificationsController as notifications">
 	<p ng-show="!notificationbox.length"><i>There are no currently notifications to display</i></p>
 	<section ng-repeat="notification in notificationbox">
-		<button type="button" ng-click="dismissNotification(notification.Id)" ></button>
+		<a type="button" class="glyphicon glyphicon-remove" confirmed-click="dismissNotification(notification.Id)" tooltip="Remove this notification" tooltip-placement="top" ng-confirm-click="Are you sure you want to dismiss this notification?"></a>
 		<a ng-href="{{ notification.link }}">{{ notification.title }}</a> <br>
 		Description: {{notification.description}}<br>
 		Due: {{notification.endDate | displayFilter}}
-	</section>
+	</section>	
 </section>
 
+ 

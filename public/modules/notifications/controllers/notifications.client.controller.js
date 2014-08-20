@@ -1,5 +1,7 @@
 'use strict';
 
+var app = angular.module('notifications', []);
+
 
 angular.module('notifications').filter('displayFilter', function() {
 	return function(dateString) {
@@ -11,7 +13,7 @@ angular.module('notifications').filter('displayFilter', function() {
 			return moment(dateString).calendar();
 		}
 	};
-});
+}); 
 
 angular.module('notifications').controller('NotificationsController', ['$scope', 'Notifications',
 	function($scope, Notifications) {
@@ -34,8 +36,28 @@ angular.module('notifications').controller('NotificationsController', ['$scope',
 				});
 			$scope.getAllNotifications();
 		};
+		
+
+		var TooltipDemoCtrl = function ($scope) {
+			$scope.dismissTooltip = 'Click to dismiss';
+		};
 
 		$scope.getAllNotifications();
+	}]);
+
+app.directive('ngConfirmClick', [
+	function(){
+		return {
+			link: function (scope, element, attr) {
+				var msg = attr.ngConfirmClick || 'Are you sure?';
+				var clickAction = attr.confirmedClick;
+				element.bind('click',function (event) {
+					if ( window.confirm(msg) ) {
+						scope.$eval(clickAction);
+					}
+				});
+			}
+		};
 	}]);
 
 
