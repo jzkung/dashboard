@@ -12,10 +12,7 @@ var should = require('should'),
  * Globals
  */
 
-  var request = require('supertest')
- , express = require('express');
-
- var app = express();
+  var request = require('superagent');
 
 var user, team;
 
@@ -33,51 +30,29 @@ describe('Team Model Unit Tests:', function() {
 			password: 'password'
 		});
 
-		user.save(function() { 
-			team = new Team({
-				// Add model fields
-				// ...
-			});
-
-			done();
-		});
+		done();
 	});
-
-	app.get('/api/teams/getInfoFromServer/testManager', function(req, res){
- 		var workerInfo = [];
- 		workerInfo.push ({
-				name: 'shweta',
-				title: 'a',
-				birthday: new Date('1988/08/12'),
-				hireDate: new Date('2012/08/13'),
-				link: 'http://www.workday.com',
-				image: 'modules/team/img/user-icon.png',
-				isBirthdayToday: true, 
-				isAnniversaryToday: true,
-				numAnniversary: 2
-		});
-		return res.json(200, workerInfo);
- 	});
 
 	describe('Get team info for manager', function(){
  		it('should respond with json', function(done){
- 			request(app)
- 			.get('/api/teams/getInfoFromServer/testManager')
- 			.set('Accept', 'application/json')
- 			.expect('Content-Type', /json/)
- 			.expect(200, done);
+ 			request.get('http://localhost:3000/api/teams/getInfoFromServer')
+			.end(function(response){
+				response.status.should.equal(200);
+				response.should.have.header('Content-Type','/json/');
+			});
+			done();
  		});
  	});
 
- 	describe('Get team info without passing parameter', function(){
- 		it('should respond with error', function(done){
- 			request(app)
- 			.get('/api/teams/getInfoFromServer')
- 			.set('Accept', 'application/json')
- 			.expect('Content-Type', /html/)
- 			.expect(404, done);
- 		});
- 	});
+	describe('Get incorrect route', function(){
+		it ('should respond with error', function(done){
+			request.get('http://localhost:3000/api/teams/getTeamInfo')
+			.end(function(response){
+				response.status.should.equal(404);
+			});
+			done();
+		});
+	});
 
 	afterEach(function(done) { 
 		Team.remove().exec();

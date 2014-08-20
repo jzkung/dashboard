@@ -40,6 +40,21 @@ var checkAnniversaryToday = function (hire_date){
 	}
 };
 
+var addOrdinalSuffix = function ordinal_suffix_of(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j === 1 && k !== 11) {
+        return i + 'st';
+    }
+    if (j === 2 && k !== 12) {
+        return i + 'nd';
+    }
+    if (j === 3 && k !== 13) {
+        return i + 'rd';
+    }
+    return i + 'th';
+};
+
 var calculateNumAnniversary = function (hire_date){
 	if (!hire_date){
 		return 0;
@@ -59,7 +74,7 @@ var calculateNumAnniversary = function (hire_date){
 var getISOStringFromDate = function (date_info){
 
 	if (date_info){
-		return new Date(date_info.replace('-','/')).toISOString();
+		return moment(date_info).toISOString();
 	}
 	else {
 		return 'Unknown';
@@ -146,6 +161,9 @@ exports.getInfoFromServer = function (req, res){
 			console.log('error is ' + response.error.message);
 			return res.json(500, response.error.message);
 		} 
+		else if (!response.body.workers) {
+			return res.json(204, 'No data found for this user');
+		}
 		else if (response.body.workers.length > 0){
 			var networkId = response.body.workers[0].NETWORK_ID;
 			getWorkerInfo(networkId, req, res);
