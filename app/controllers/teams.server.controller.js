@@ -43,17 +43,17 @@ var checkAnniversaryToday = function (hire_date){
 var addOrdinalSuffix = function ordinal_suffix_of(i) {
     var j = i % 10,
         k = i % 100;
-    if (j == 1 && k != 11) {
-        return i + "st";
+    if (j === 1 && k !== 11) {
+        return i + 'st';
     }
-    if (j == 2 && k != 12) {
-        return i + "nd";
+    if (j === 2 && k !== 12) {
+        return i + 'nd';
     }
-    if (j == 3 && k != 13) {
-        return i + "rd";
+    if (j === 3 && k !== 13) {
+        return i + 'rd';
     }
-    return i + "th";
-}
+    return i + 'th';
+};
 
 var calculateNumAnniversary = function (hire_date){
 	if (!hire_date){
@@ -74,7 +74,7 @@ var calculateNumAnniversary = function (hire_date){
 var getISOStringFromDate = function (date_info){
 
 	if (date_info){
-		return moment(date_info).toISOString()
+		return moment(date_info).toISOString();
 	}
 	else {
 		return 'Unknown';
@@ -161,6 +161,9 @@ exports.getInfoFromServer = function (req, res){
 			console.log('Error is ' + response.error.message);
 			return res.json(500, response.error.message);
 		} 
+		else if (!response.body.workers) {
+			return res.json(204, 'No data found for this user');
+		}
 		else if (response.body.workers.length > 0){
 			console.log('Network ID found for user');
 			var networkId = response.body.workers[0].NETWORK_ID;

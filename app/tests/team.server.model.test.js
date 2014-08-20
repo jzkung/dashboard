@@ -70,7 +70,7 @@ describe('Team Model Unit Tests:', function() {
 			});
 			done();
 		});
-	})
+	});
 
 	afterEach(function(done) { 
 		Team.remove().exec();

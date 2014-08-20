@@ -26,7 +26,7 @@ Status: 200 OK
 Content type: application/json
 Body: List of direct reports 
 
-Sample:
+Sample Response:
 [
     {
         "name": "NewHire Abc",
@@ -50,7 +50,7 @@ Status: 200 OK
 Content type: application/json
 Body: List of tools 
 
-Sample:
+Sample Response:
 [{
         "category": "Daily",
         "links": [
@@ -65,6 +65,68 @@ Sample:
         ]
     }
 ]
+
+2.3 Create Tool
+Method: POST
+Route: /api/tools
+Sample Request:
+{
+        "category": "Test",
+        "userGroups": ["ebs","manager"],
+        "links": [
+            {
+                "name": "HR Insight",
+                "description": "a place to go when you have questions!",
+                "url": "http://insight.intuit.com",
+                "userGroups": ["ebs","manager"]
+            }
+        ]   
+}
+Response:
+Status: 200 OK
+Content type: application/json
+Body: Newly added tool
+
+2.4 Add New Link
+Method: PUT
+Route: /api/addLink/:category
+Parameter: Category name
+Sample Request:
+{
+        "links": 
+            {
+                "name": "Test test",
+                "description": "a place to go when you have questions!",
+                "url": "http://insight.intuit.com",
+                "userGroups": ["ebs","manager"]
+            }
+}
+Response:
+Status: 200 OK
+Content type: application/json
+Body: Newly updated tool
+
+2.5 Add New User group
+Method: PUT
+Route: /api/addUsergroup/:category
+Parameter: Category name
+Sample Request:
+{
+  "userGroups":"test"
+}
+Response:
+Status: 200 OK
+Content type: application/json
+Body: Newly updated tool
+
+2.6 Get One Tool
+Method: GET
+Route: /api/tool/:category
+Parameter: Category name
+Response:
+Status: 200 OK
+Content type: application/json
+Body: Tool
 
     
 

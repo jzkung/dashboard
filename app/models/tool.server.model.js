@@ -16,7 +16,7 @@
 var ToolSchema = new Schema({
   category: {type: String, required: true},
   userGroups: {type: [String]},
-  items: {type: [ItemSchema]}
+  links: {type: [ItemSchema]}
  });
 
 mongoose.model('Tool', ToolSchema);

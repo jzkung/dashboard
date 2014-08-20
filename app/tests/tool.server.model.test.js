@@ -20,9 +20,9 @@
  	beforeEach(function(done) {
 
  		tool = new Tool({
- 			category: 'Daily',
+ 			category: 'Test',
  			userGroups: ['hr','ebs'],
- 			items: [
+ 			links: [
  			{
  				name: 'PrimeTime',
  				description: 'primetime',
@@ -54,6 +54,27 @@
  				should.not.exist(err);
  				done();
  			});
+ 		});
+ 	});
+
+ 	describe('Create tool', function(){
+ 		it ('should return created tool', function(done){
+ 			request.post('http://localhost:3000/api/tools')
+ 			.send({
+ 				category: 'Test',
+ 				userGroups: ['test'],
+ 				links: [
+ 				{
+ 					name: 'PrimeTime',
+ 					description: 'primetime',
+ 					url: 'http://www.primetime.com',
+ 					userGroups: ['emp']
+ 				}]
+ 			})
+ 			.end(function(response){
+ 				response.status.should.equal(200);
+ 			});
+ 			done();
  		});
  	});
 
@@ -90,6 +111,93 @@
  			.end(function(response){
  				response.status.should.equal(404);
  				response.should.have.header('Content-Type','/html/'); 				
+ 			});
+ 			done();
+ 		});
+ 	});
+
+ 	describe('Create tool without required fields', function(){
+ 		it ('should respond with error', function(done){
+ 			request.post('http://localhost:3000/api/tools')
+ 			.send({
+ 				userGroups: ['test'],
+ 				links: [
+ 				{
+ 					name: 'PrimeTime',
+ 					description: 'primetime',
+ 					url: 'http://www.primetime.com',
+ 					userGroups: ['emp']
+ 				}]
+ 			})
+ 			.end(function(response){
+ 				response.status.should.equal(400);
+ 				response.should.have.property('error');
+ 			});
+ 			done();
+ 		});
+ 	});
+
+ 	describe('Add Link without Name', function(){
+ 		it ('should respond with error', function(done){
+ 			request.post('http://localhost:3000/api/addLink/Test')
+ 			.send({ 				
+ 					'links': 
+ 					{
+ 						'name': 'Test test',
+ 						'description': 'a place to go when you have questions!',
+ 						'url': 'http://insight.intuit.com',
+ 						'userGroups': ['ebs','manager']
+ 					}
+ 			})
+ 			.end(function(response){
+ 				response.status.should.equal(400);
+ 				response.should.have.property('error');
+ 			});
+ 			done();
+ 		});
+ 	});
+
+ 	describe('Add Link where Category does not exist', function(){
+ 		it ('should respond with error', function(done){
+ 			request.post('http://localhost:3000/api/addLink/NewTest')
+ 			.send({
+ 					'links': 
+ 					{
+ 						'name': 'Test test',
+ 						'description': 'a place to go when you have questions!',
+ 						'url': 'http://insight.intuit.com',
+ 						'userGroups': ['ebs','manager']
+ 					}
+ 			})
+ 			.end(function(response){
+ 				response.status.should.equal(204);
+ 			});
+ 			done();
+ 		});
+ 	});
+
+ 	describe('Get one tool', function(){
+ 		it('should respond with json', function(done){
+ 			request.get('http://localhost:3000/api/tool/Test')
+ 			.end(function(response){
+ 				response.status.should.equal(200);
+ 				response.should.have.header('Content-Type','/json/');
+ 			});
+ 			done();
+ 		});
+ 		it('should contain category field', function(done){
+ 			request.get('http://localhost:3000/api/tool/Test')
+ 			.end(function(response){
+ 				response.status.should.equal(200);
+ 				response.body.should.have.property('category');
+ 			});
+ 			done();
+ 		});
+ 		it('should contain links field', function(done){
+ 			request.get('http://localhost:3000/api/tool/Test')
+ 			.end(function(response){
+ 				response.status.should.equal(200);
+ 				response.body.should.have.property('links');
  			});
  			done();
  		});
