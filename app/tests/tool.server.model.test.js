@@ -5,14 +5,9 @@
  */
  var should = require('should'),
  mongoose = require('mongoose'),
- User = mongoose.model('User'),
- Tool = mongoose.model('Tool'),
- _ = require('lodash');
+ Tool = mongoose.model('Tool');
 
- var request = require('supertest')
- , express = require('express');
-
- var app = express();
+ var request = require('superagent');
 /**
  * Globals
  */
@@ -23,47 +18,38 @@
  */
  describe('Tool Model Unit Tests:', function() {
  	beforeEach(function(done) {
- 		user = new User({
- 			firstName: 'Full',
- 			lastName: 'Name',
- 			displayName: 'Full Name',
- 			email: 'test@test.com',
- 			username: 'username',
- 			password: 'password'
- 		});
 
- 		user.save(function() { 
- 			tool = new Tool({
- 				category: 'Daily',
- 				userGroups: ['hr','ebs'],
- 				items: [
- 				{
- 					name: 'PrimeTime',
- 					description: 'primetime',
- 					url: 'http://www.primetime.com',
- 					userGroups: ['emp']
- 				},
- 				{
- 					name: 'Workday',
- 					description: 'a place to look at your team and stuff!',
- 					url: 'http://www.workday.com',
- 					userGroups: ['emp']
- 				},
- 				{
- 					name: 'Yelp',
- 					description: 'a place to look for good foods!',
- 					url: 'http://www.yelp.com',
- 					userGroups: ['emp']
- 				}
- 				]
- 			});
-
- 			done();
+ 		tool = new Tool({
+ 			category: 'Daily',
+ 			userGroups: ['hr','ebs'],
+ 			items: [
+ 			{
+ 				name: 'PrimeTime',
+ 				description: 'primetime',
+ 				url: 'http://www.primetime.com',
+ 				userGroups: ['emp']
+ 			},
+ 			{
+ 				name: 'Workday',
+ 				description: 'a place to look at your team and stuff!',
+ 				url: 'http://www.workday.com',
+ 				userGroups: ['emp']
+ 			},
+ 			{
+ 				name: 'Yelp',
+ 				description: 'a place to look for good foods!',
+ 				url: 'http://www.yelp.com',
+ 				userGroups: ['emp']
+ 			}
+ 			]
  		});
+ 		tool.save();
+
+ 		done();
  	});
 
  	describe('Method Save', function() {
- 		it('should be able to save without problems', function(done) {
+ 		it('should be able to save new tool without problems', function(done) {
  			return tool.save(function(err) {
  				should.not.exist(err);
  				done();
@@ -71,46 +57,46 @@
  		});
  	});
 
- 	app.get('/api/tools', function(req, res){
- 		Tool.find(function (err, tools) {
- 			if (err) {
- 				return err;
- 			}
- 			var toolResult = [];
- 			_.forEach (tools, function (tool){
- 				toolResult.push ({
- 					category: tool.category,
- 					links: tool.items
- 				});
- 			});
- 			return res.json(200, toolResult);
- 		});
- 	});
-
  	describe('Get all tools', function(){
  		it('should respond with json', function(done){
- 			request(app)
- 			.get('/api/tools')
- 			.set('Accept', 'application/json')
- 			.expect('Content-Type', /json/)
- 			.expect(200, done);
+ 			request.get('http://localhost:3000/api/tools')
+ 			.end(function(response){
+ 				response.status.should.equal(200);
+ 				response.should.have.header('Content-Type','/json/');
+ 			});
+ 			done();
+ 		});
+ 		it('should contain category field', function(done){
+ 			request.get('http://localhost:3000/api/tools')
+ 			.end(function(response){
+ 				response.status.should.equal(200);
+ 				response.body.should.have.property('category');
+ 			});
+ 			done();
+ 		});
+ 		it('should contain links field', function(done){
+ 			request.get('http://localhost:3000/api/tools')
+ 			.end(function(response){
+ 				response.status.should.equal(200);
+ 				response.body.should.have.property('links');
+ 			});
+ 			done();
  		});
  	});
 
  	describe('Get tools from incorrect route', function(){
  		it('should respond with error', function(done){
- 			request(app)
- 			.get('/api/toolsList')
- 			.set('Accept', 'application/json')
- 			.expect('Content-Type', /html/)
- 			.expect(404, done);
+ 			request.get('http://localhost:3000/api/toolsList')
+ 			.end(function(response){
+ 				response.status.should.equal(404);
+ 				response.should.have.header('Content-Type','/html/'); 				
+ 			});
+ 			done();
  		});
  	});
 
  	afterEach(function(done) { 
  		Tool.remove().exec();
- 		User.remove().exec();
-
  		done();
  	});
  });
