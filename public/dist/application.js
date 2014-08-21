@@ -61,7 +61,7 @@ angular.module('control-panel').config([
   function ($stateProvider) {
     // Control panel state routing
     $stateProvider.state('control-panel', {
-      url: '/',
+      url: '/control-panel',
       templateUrl: 'modules/control-panel/views/control-panel.client.view.html'
     }).state('widget', {
       url: '/widget',
@@ -71,7 +71,19 @@ angular.module('control-panel').config([
 ]);'use strict';
 angular.module('control-panel').controller('ControlpanelController', [
   '$scope',
-  function ($scope) {
+  '$http',
+  function ($scope, $http) {
+    // Controlpanel controller logic
+    // ...
+    $scope.getUserName = function () {
+      $http.get('/users/me').success(function (response) {
+        //If successful we assign the response to the global user model
+        $scope.myName = response.displayName;
+      }).error(function (response) {
+        $scope.error = response.message;
+      });
+    };
+    $scope.getUserName();
   }
 ]);'use strict';
 angular.module('control-panel').controller('WidgetController', [
@@ -118,14 +130,28 @@ angular.module('core').controller('ContactController', [
 ]);'use strict';
 angular.module('core').controller('HeaderController', [
   '$scope',
+  '$http',
+  '$location',
   'Authentication',
   'Menus',
-  function ($scope, Authentication, Menus) {
+  function ($scope, $http, $location, Authentication, Menus) {
     $scope.authentication = Authentication;
     $scope.isCollapsed = false;
     $scope.menu = Menus.getMenu('topbar');
     $scope.toggleCollapsibleMenu = function () {
       $scope.isCollapsed = !$scope.isCollapsed;
+    };
+    $scope.signout = function () {
+      console.log('Trying to signout');
+      $http.get('/auth/signout').success(function (response) {
+        //If successful we assign the response to the global user model
+        console.log('Success while calling $scope.signout');
+        $scope.authentication.user = null;
+        $location.path('/signin');
+      }).error(function (response) {
+        console.log('Error while calling $scope.signout');
+        $scope.error = response.message;
+      });
     };
     // Collapsing the menu after navigation
     $scope.$on('$stateChangeSuccess', function () {
@@ -406,36 +432,107 @@ angular.module('notifications').config([
     });
   }
 ]);'use strict';
-var alerts = [
-    {
-      title: 'Finish Performance Review',
-      link: 'http://www.workday.com',
-      dueDate: 'tomorrow'
-    },
-    {
-      title: 'Submit fitness reimbursement',
-      link: 'http://www.workday.com',
-      dueDate: '7/28/2014'
-    },
-    {
-      title: 'Scheduled maintenance',
-      link: 'http://www.workday.com',
-      dueDate: 'today'
+var app = angular.module('notifications', []);
+angular.module('notifications').filter('displayFilter', function () {
+  return function (dateString) {
+    if (dateString === null) {
+      dateString = 'no due date';
+      return dateString;
+    } else {
+      return moment(dateString).calendar();
     }
-  ];
+  };
+});
 angular.module('notifications').controller('NotificationsController', [
   '$scope',
-  function ($scope) {
+  'Notifications',
+  function ($scope, Notifications) {
     $scope.widget = { title: 'My Notifications' };
-    this.alerts = alerts;
+    $scope.getAllNotifications = function () {
+      Notifications.getAllNotifications().then(function (event) {
+        $scope.notificationbox = event;
+      });
+    };
+    $scope.dismissNotification = function (NotificationId) {
+      console.log(' call 1');
+      Notifications.dismissNotification(NotificationId).then(function (event) {
+        console.log('entered');
+      });
+      $scope.getAllNotifications();
+    };
+    var TooltipDemoCtrl = function ($scope) {
+      $scope.dismissTooltip = 'Click to dismiss';
+    };
+    $scope.getAllNotifications();
   }
-]);'use strict';
+]);
+app.directive('ngConfirmClick', [function () {
+    return {
+      link: function (scope, element, attr) {
+        var msg = attr.ngConfirmClick || 'Are you sure?';
+        var clickAction = attr.confirmedClick;
+        element.bind('click', function (event) {
+          if (window.confirm(msg)) {
+            scope.$eval(clickAction);
+          }
+        });
+      }
+    };
+  }]);  // var d = new Date();
+        // var day = d.getDate() < 10 ? '0' + (d.getDate()+1) : (d.getDate()+1) ;
+        // var month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+        // var year = d.getFullYear();
+        // $scope.dateToday = date.parse(year + '-' + month + '-' + day);
+'use strict';
 angular.module('notifications').directive('notifications', [function () {
     return {
       restrict: 'E',
       templateUrl: 'modules/notifications/views/notifications.client.view.html'
     };
   }]);'use strict';
+angular.module('notifications').factory('Notifications', [
+  '$http',
+  '$log',
+  '$q',
+  function ($http, $log, $q) {
+    return {
+      getAllNotifications: function () {
+        var deferred = $q.defer();
+        var url = '/api/notifications';
+        $http({
+          method: 'GET',
+          url: url
+        }).success(function (data, status, headers, config) {
+          console.log('success');
+          $log.info(data, status, headers, config);
+          deferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+          console.log('error');
+          $log.debug(data, status, headers, config);
+        });
+        return deferred.promise;
+      },
+      dismissNotification: function (notificationId) {
+        var deferred = $q.defer();
+        var url = '/users/dismissNotification/?id=' + notificationId;
+        //var url = '/api/tools';
+        $http({
+          method: 'PUT',
+          url: url
+        }).success(function (data, status, headers, config) {
+          console.log('success');
+          $log.info(data, status, headers, config);
+          deferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+          console.log('error');
+          $log.debug(data, status, headers, config);
+        });
+        return deferred.promise;
+      }
+    };
+  }
+]);  //db.notifications.find({'startDate':{$lte:new Date ()}, 'endDate':{$gte:new Date()}})
+'use strict';
 //Setting up route
 angular.module('team').config([
   '$stateProvider',
@@ -456,52 +553,12 @@ angular.module('team').config([
     });
   }
 ]);'use strict';
-var employees = [
-    {
-      name: 'Jessica Kung',
-      title: 'Software Engineer Intern',
-      birthday: '10/02/1992',
-      hireDate: '6/23/2014',
-      link: 'http://www.workday.com',
-      image: 'modules/team/img/jessicar.png'
-    },
-    {
-      name: 'Sara Hua',
-      title: 'HR Intern',
-      birthday: '7/25/1992',
-      hireDate: '7/28/2014',
-      link: 'http://www.workday.com',
-      image: 'modules/team/img/sara.png'
-    },
-    {
-      name: 'Kevin Lu',
-      title: 'Software Engineer Intern',
-      birthday: '5/5/1993',
-      hireDate: '6/16/2014',
-      link: 'http://www.workday.com',
-      image: 'modules/team/img/kevin.png'
-    },
-    {
-      name: 'Sara Hua',
-      title: 'HR Intern',
-      birthday: '7/25/1992',
-      hireDate: '7/28/2014',
-      link: 'http://www.workday.com',
-      image: 'modules/team/img/sara.png'
-    },
-    {
-      name: 'Kevin Lu',
-      title: 'Software Engineer Intern',
-      birthday: '5/5/1993',
-      hireDate: '6/16/2014',
-      link: 'http://www.workday.com',
-      image: 'modules/team/img/kevin.png'
-    }
-  ];
 angular.module('team').controller('TeamEmployeesController', [
   '$scope',
-  function ($scope) {
-    this.employees = employees;
+  'teamFactory',
+  function ($scope, teamFactory) {
+    var employees = [];
+    $scope.emps = employees;
     var initEmployees = 2;
     $scope.employeesToShow = initEmployees;
     $scope.hasMoreToShow = function () {
@@ -516,40 +573,52 @@ angular.module('team').controller('TeamEmployeesController', [
     $scope.checkIfShow = function (index) {
       return index < $scope.employeesToShow;
     };
+    $scope.fetchBasicWorkerInfoForManager = function () {
+      console.log('in employee controller method');
+      teamFactory.fetchBasicWorkerInfoForManager().then(function (event) {
+        $scope.emps = event;
+        employees = event;
+      });
+    };
+    $scope.fetchBasicWorkerInfoForManager();
+    $scope.$watch('emps', function (newValue) {
+      if (newValue)
+        teamFactory.setWorkers(newValue);
+    });
   }
 ]);'use strict';
-var anniversaries = [{
-      first_name: 'Sara',
-      last_name: 'Hua',
-      year: '2nd',
-      image: 'modules/team/img/sara.png'
-    }];
 angular.module('team').controller('TeamAnniversaryController', [
   '$scope',
   '$animate',
-  function ($scope, $animate) {
-    this.anniversaries = anniversaries;
+  'teamFactory',
+  'filterFilter',
+  function ($scope, $animate, teamFactory, filterFilter) {
+    $scope.anniversaries = [];
+    $scope.$watch(function () {
+      return teamFactory.getWorkers();
+    }, function (newValue) {
+      if (newValue) {
+        var anniversaries = newValue;
+        $scope.anniversaries = filterFilter(anniversaries, { isAnniversaryToday: true });
+      }
+    });
   }
 ]);'use strict';
-var birthdays = [
-    {
-      first_name: 'Jessica',
-      last_name: 'Kung',
-      age: '22nd',
-      image: 'modules/team/img/jessicar.png'
-    },
-    {
-      first_name: 'Kevin',
-      last_name: 'Lu',
-      age: '21st',
-      image: 'modules/team/img/kevin.png'
-    }
-  ];
 angular.module('team').controller('TeamBirthdayController', [
   '$scope',
   '$animate',
-  function ($scope, $animate) {
-    this.birthdays = birthdays;
+  'teamFactory',
+  'filterFilter',
+  function ($scope, $animate, teamFactory, filterFilter) {
+    $scope.birthdays = [];
+    $scope.$watch(function () {
+      return teamFactory.getWorkers();
+    }, function (newValue) {
+      if (newValue) {
+        var birthdays = newValue;
+        $scope.birthdays = filterFilter(birthdays, { isBirthdayToday: true });
+      }
+    });
   }
 ]);'use strict';
 angular.module('team').controller('TeamController', [
@@ -584,7 +653,71 @@ angular.module('team').directive('team', [function () {
       templateUrl: 'modules/team/views/team.client.view.html',
       restrict: 'E'
     };
-  }]);'use strict';
+  }]);/**
+ * Created by skumar34 on 8/4/14.
+ */
+/********** UNUSED FILE - TO BE DELETED ***********/
+'use strict';
+angular.module('team').factory('teamEmpFactory', [
+  '$http',
+  '$log',
+  '$q',
+  function ($http, $log, $q) {
+    return {
+      fetchBasicWorkerInfoForManager: function (managerName) {
+        var deferred = $q.defer();
+        var url = '/teams/getInfoFromServer/' + managerName;
+        $http({
+          method: 'GET',
+          url: url
+        }).success(function (data, status, headers, config) {
+          console.log('success');
+          $log.info(data, status, headers, config);
+          deferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+          console.log('error');
+          $log.debug(data, status, headers, config);
+        });
+        return deferred.promise;
+      }
+    };
+  }
+]);/**
+ * Created by skumar34 on 8/4/14.
+ */
+'use strict';
+angular.module('team').factory('teamFactory', [
+  '$http',
+  '$log',
+  '$q',
+  function ($http, $log, $q) {
+    var workers = [];
+    return {
+      fetchBasicWorkerInfoForManager: function () {
+        var deferred = $q.defer();
+        var url = '/api/teams/getInfoFromServer';
+        $http({
+          method: 'GET',
+          url: url
+        }).success(function (data, status, headers, config) {
+          console.log('success');
+          $log.info(data, status, headers, config);
+          deferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+          console.log('error');
+          $log.debug(data, status, headers, config);
+        });
+        return deferred.promise;
+      },
+      setWorkers: function (workersData) {
+        workers = workersData;
+      },
+      getWorkers: function () {
+        return workers;
+      }
+    };
+  }
+]);'use strict';
 //Setting up route
 angular.module('tools').config([
   '$stateProvider',
@@ -596,48 +729,18 @@ angular.module('tools').config([
     });
   }
 ]);'use strict';
-var toolbox = [
-    {
-      category: 'Daily',
-      links: [
-        {
-          name: 'PrimeTime',
-          description: 'a place to manage your timesheet!',
-          url: 'http://www.primetime.com'
-        },
-        {
-          name: 'Workday',
-          description: 'a place to look at your team and stuff!',
-          url: 'http://www.workday.com'
-        },
-        {
-          name: 'Yelp',
-          description: 'a place to look for good foods!',
-          url: 'http://www.yelp.com'
-        }
-      ]
-    },
-    {
-      category: 'Miscellaneous',
-      links: [
-        {
-          name: 'HR Insight',
-          description: 'a place to go when you have questions!',
-          url: 'http://insight.intuit.com'
-        },
-        {
-          name: 'Onboarding',
-          description: 'the place you went to onboard and stuff!',
-          url: 'http://www.intuit.com'
-        }
-      ]
-    }
-  ];
 angular.module('tools').controller('ToolsController', [
   '$scope',
-  function ($scope) {
+  'Tools',
+  function ($scope, Tools) {
     $scope.widget = { title: 'My Tools' };
-    this.toolbox = toolbox;
+    $scope.getAllTools = function () {
+      Tools.getAllTools().then(function (event) {
+        console.log(event);
+        $scope.toolbox = event;
+      });
+    };
+    $scope.getAllTools();
   }
 ]);'use strict';
 angular.module('tools').directive('tools', [function () {
@@ -646,6 +749,31 @@ angular.module('tools').directive('tools', [function () {
       restrict: 'E'
     };
   }]);'use strict';
+angular.module('tools').factory('Tools', [
+  '$http',
+  '$log',
+  '$q',
+  function ($http, $log, $q) {
+    return {
+      getAllTools: function () {
+        var deferred = $q.defer();
+        var url = '/api/tools';
+        $http({
+          method: 'GET',
+          url: url
+        }).success(function (data, status, headers, config) {
+          console.log('success');
+          $log.info(data, status, headers, config);
+          deferred.resolve(data);
+        }).error(function (data, status, headers, config) {
+          console.log('error');
+          $log.debug(data, status, headers, config);
+        });
+        return deferred.promise;
+      }
+    };
+  }
+]);'use strict';
 // Config HTTP Error Handling
 angular.module('users').config([
   '$httpProvider',
@@ -694,7 +822,7 @@ angular.module('users').config([
       url: '/signup',
       templateUrl: 'modules/users/views/signup.client.view.html'
     }).state('signin', {
-      url: '/signin',
+      url: '/',
       templateUrl: 'modules/users/views/signin.client.view.html'
     });
   }
@@ -709,22 +837,25 @@ angular.module('users').controller('AuthenticationController', [
     //If user is signed in then redirect back home
     if ($scope.authentication.user)
       $location.path('/');
+    console.log('User is ' + JSON.stringify($scope.authentication.user));
     $scope.signup = function () {
       $http.post('/auth/signup', $scope.credentials).success(function (response) {
+        console.log('Somebody called signup');
         //If successful we assign the response to the global user model
         $scope.authentication.user = response;
         //And redirect to the index page
-        $location.path('/');
+        $location.path('/control-panel');
       }).error(function (response) {
         $scope.error = response.message;
       });
     };
     $scope.signin = function () {
       $http.post('/auth/signin', $scope.credentials).success(function (response) {
+        console.log('Somebody called signin');
         //If successful we assign the response to the global user model
         $scope.authentication.user = response;
         //And redirect to the index page
-        $location.path('/');
+        $location.path('/control-panel');
       }).error(function (response) {
         $scope.error = response.message;
       });
