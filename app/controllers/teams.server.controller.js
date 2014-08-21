@@ -63,7 +63,7 @@ var calculateNumAnniversary = function (hire_date){
 		if (checkAnniversaryToday){
 			var hd  = moment(hire_date);
 			var today = moment();
-			return today.diff(hd,'years');
+			return addOrdinalSuffix(today.diff(hd,'years'));
 		}
 		else {
 			return 0;
@@ -121,8 +121,8 @@ var getWorkerInfo = function (networkId, req, res){
 				hireDate: getISOStringFromDate('2001-08-07'),
 				link: 'http://www.workday.com',
 				image: 'modules/team/img/user-icon.png',
-				isBirthdayToday: checkBirthdayToday('1988-08-12'), 
-				isAnniversaryToday: checkAnniversaryToday('2001-08-12'),
+				isBirthdayToday: checkBirthdayToday('1988-08-21'), 
+				isAnniversaryToday: checkAnniversaryToday('2001-08-21'),
 				numAnniversary: calculateNumAnniversary('2001-08-12')
 			});
 			workerInfo.push ({
@@ -150,6 +150,7 @@ var getWorkerInfo = function (networkId, req, res){
 
 exports.getInfoFromServer = function (req, res){
 	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/search?firstName=' + req.user.firstName + '&lastName=' + req.user.lastName;
+
 	request
 	.get(url)
 	.on('error', function(error){
