@@ -8,8 +8,8 @@ Control Panel Documentation
 
 Category - String
 User Groups – [String]
-Items: 
-Name - String
+Links: 
+    Name - String
 	Description - String
 	URL – String 
 	User Groups – [String]
@@ -127,6 +127,14 @@ Response:
 Status: 200 OK
 Content type: application/json
 Body: Tool
+
+2.7 Delete one tool
+Method: GET
+Route: /api/tool/:category
+Parameter: Category name
+Response:
+Status: 200 OK
+
 
     
 
