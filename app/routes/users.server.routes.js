@@ -9,7 +9,14 @@ module.exports = function(app) {
 	// User Routes
 	var users = require('../../app/controllers/users');
 	app.route('/users/me').get(users.me);
-	app.route('/users').put(users.update);
+  app.route('/users')
+    .get(users.list)
+    .put(users.update);
+
+  app.route('/users/:id')
+    .get(users.getUser)
+    .put(users.updateUser);
+
 	app.route('/users/password').post(users.changePassword);
 	app.route('/users/accounts').delete(users.removeOAuthProvider);
 	app.route('/users/dismissNotification/').put(users.dismissNotification);

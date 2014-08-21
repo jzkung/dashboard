@@ -1,0 +1,64 @@
+<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+
+<section data-ng-controller="AdminUserController" class="content">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="col-sm-8">
+        <h2>Users Groups</h2>
+      </div>
+      <div class="col-sm-4">
+        <button data-ng-click="newUserGroup()" class="btn btn-info pull-right" style="margin-top: 20px;">New User Groups</button>
+        <div class="clearfix"></div>
+      </div>
+      <table class="table table-stripped table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="userGroup in userGroups">
+            <td><a ng-href="/#!/admin/user-groups/{{userGroup._id}}">{{userGroup.name}}</a></td>
+          </tr>
+          <tr data-ng-show="userGroups.length == 0">
+            <td>There are no User Groups</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="col-sm-8">
+        <h2>Users</h2>
+      </div>
+      <div class="col-sm-4">
+        <button class="btn btn-info pull-right" style="margin-top: 20px;">New User</button>
+        <div class="clearfix"></div>
+      </div>
+      <table class="table table-stripped table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Network ID</th>
+            <th>User Groups</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users">
+            <td><a ng-href="/#!/admin/users/{{user._id}}">{{user.lastName}}, {{user.firstName}}</a></td>
+            <td>{{user.username}}</td>
+            <td>{{user.roles.join(', ')}}</td>
+          </tr>
+          <tr data-ng-show="users.length == 0">
+            <td>There are no Users</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</section>

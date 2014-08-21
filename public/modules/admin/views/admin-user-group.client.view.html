@@ -1,0 +1,26 @@
+<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+
+<section data-ng-controller="AdminUserController" class="content">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <h2 data-ng-show="vars.isNew">New User Group</h2>
+      <h2 data-ng-hide="vars.isNew">Edit User Group</h2>
+      <div>
+        <div class="alert alert-danger" data-ng-show="user_group_form.$invalid">
+          <ul>
+            <li data-ng-repeat="(key, value) in user_group_form.$error">{{key}} - {{value}}</li>
+          </ul>
+        </div>
+        <form name="user_group_form" role="form" ng-submit="updateUserGroup()">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" placeholder="Enter Name" data-ng-model="userGroup.name">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</section>
