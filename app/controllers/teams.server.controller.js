@@ -149,17 +149,14 @@ var getWorkerInfo = function (networkId, req, res){
 };
 
 exports.getInfoFromServer = function (req, res){
-	var url = 'pqalwesas301:8080/workerService/ws/api/v1/workers/search?firstName=' + req.user.firstName + '&lastName=' + req.user.lastName;
-
-	console.info(url);
+	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/search?firstName=' + req.user.firstName + '&lastName=' + req.user.lastName;
 
 	request
 	.get(url)
-	.on('error', function(error){
-		console.log(error);
-		return res.json(500, error);
-	})
 	.end(function(response){
+		console.info('error', response.error);
+		console.info('body', response.body);
+		console.info('status', response.status);
 		if (response.error) {
 			console.log('error is ' + response.error.message);
 			return res.json(500, response.error.message);
