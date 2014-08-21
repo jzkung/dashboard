@@ -13,9 +13,8 @@
  		title: {type: String, required: true},
  		link: {type: String},
  		description: {type: String},
- 		startDate: {type: Date},
+ 		startDate: {type: Date, default: Date.now},
  		endDate: {type: Date},
- 		dismiss: {type: Boolean},
  		userGroups: {type: [String]}
  });
 
