@@ -153,6 +153,9 @@ exports.getInfoFromServer = function (req, res){
 
 	request
 	.get(url)
+	.on('error', function(error){
+		console.log(error);
+	})
 	.end(function(response){
 		console.info('error', response.error);
 		console.info('body', response.body);
