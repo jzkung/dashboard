@@ -95,7 +95,7 @@ var getWorkerInfo = function (networkId, req, res){
 		if (response.error) {
 			console.log('error is ' + response.error.message);
 			return res.json(500, response.error.message);
-		} 
+		}
 		else if (response.body.workers.length>0) {
 			console.log('status is ' + response.status );
 			var workerList = response.body.workers;
@@ -106,8 +106,8 @@ var getWorkerInfo = function (networkId, req, res){
 					birthday: getISOStringFromDate(data.BIRTH_DATE),
 					hireDate: getISOStringFromDate(data.HIRE_DATE),
 					link: 'http://www.workday.com',
-					image: 'modules/team/img/user-icon.png', 
-					isBirthdayToday: checkBirthdayToday(data.BIRTH_DATE), 
+					image: 'modules/team/img/user-icon.png',
+					isBirthdayToday: checkBirthdayToday(data.BIRTH_DATE),
 					isAnniversaryToday: checkAnniversaryToday(data.HIRE_DATE),
 					numAnniversary: calculateNumAnniversary(data.HIRE_DATE)
 				});
@@ -121,7 +121,7 @@ var getWorkerInfo = function (networkId, req, res){
 				hireDate: getISOStringFromDate('2001-08-07'),
 				link: 'http://www.workday.com',
 				image: 'modules/team/img/user-icon.png',
-				isBirthdayToday: checkBirthdayToday('1988-08-21'), 
+				isBirthdayToday: checkBirthdayToday('1988-08-21'),
 				isAnniversaryToday: checkAnniversaryToday('2001-08-21'),
 				numAnniversary: calculateNumAnniversary('2001-08-12')
 			});
@@ -132,7 +132,7 @@ var getWorkerInfo = function (networkId, req, res){
 				hireDate: getISOStringFromDate('2001-08-07'),
 				link: 'http://www.workday.com',
 				image: 'modules/team/img/user-icon.png',
-				isBirthdayToday: checkBirthdayToday('1988-08-05'), 
+				isBirthdayToday: checkBirthdayToday('1988-08-05'),
 				isAnniversaryToday: checkAnniversaryToday('2001-08-07'),
 				numAnniversary: calculateNumAnniversary('2001-08-07')
 			});
@@ -144,12 +144,14 @@ var getWorkerInfo = function (networkId, req, res){
 			return res.json(204, 'No data');
 		}
 
-		
+
 	});
 };
 
 exports.getInfoFromServer = function (req, res){
-	var url = 'http://pqalwesas301:8080/workerService/ws/api/v1/workers/search?firstName=' + req.user.firstName + '&lastName=' + req.user.lastName;
+	var url = 'pqalwesas301:8080/workerService/ws/api/v1/workers/search?firstName=' + req.user.firstName + '&lastName=' + req.user.lastName;
+
+	console.info(url);
 
 	request
 	.get(url)
@@ -161,7 +163,7 @@ exports.getInfoFromServer = function (req, res){
 		if (response.error) {
 			console.log('error is ' + response.error.message);
 			return res.json(500, response.error.message);
-		} 
+		}
 		else if (!response.body.workers) {
 			return res.json(204, 'No data found for this user');
 		}
