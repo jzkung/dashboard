@@ -170,7 +170,8 @@ exports.getInfoFromServer = function (req, res){
 		}
 		else if (response.body.workers.length > 0){
 			var networkId = response.body.workers[0].NETWORK_ID;
-			getWorkerInfo(networkId, req, res);
+			// getWorkerInfo(networkId, req, res);
+      return res.json(200, {});
 		}
 		else {
 			return res.json(204, 'No data');
