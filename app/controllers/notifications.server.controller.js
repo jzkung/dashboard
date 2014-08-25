@@ -14,10 +14,31 @@
  var currentTime = Date.now();
 
 /**
- * Create a Notifwescftygvjbhn m,ication
+	 * Create a Notifwescftygvjbhn m,ication
  */
- exports.create = function(req, res) {
+ exports.create = function(req, res, next) {
 
+ if(!req.body.title){
+ 		return res.json(400, {error: 'Title field is not entered'});
+ 	}
+
+ 	console.log(req.body.title);
+
+ 	var notification = new Notification({
+ 		title: req.body.title,
+ 		description: req.body.description,
+ 		startDate: req.body.startDate,
+ 		endDate: req.body.endDate,
+ 		userGroups: req.body.userGroups//req.userGroups
+ 	});
+
+ 	notification.save(function (err){
+ 		if(err) {
+ 			return next(err);
+ 		}
+
+ 		return res.json(200, notification);
+ 	});
  };
 
 /**
@@ -29,14 +50,40 @@
 /**
  * Update a Notification
  */
- exports.update = function(req, res) {
+ exports.update = function(req, res, next) {
+ 	var conditions = {title: req.body.title};
+ 	var update = {$set :{ title: req.body.title,
+ 		link: req.body.link, 
+ 		description: req.body.description,
+ 		startDate: req.body.startDate,
+ 		endDate: req.body.endDate,
+ 		userGroups: req.body.userGroups}};
+ 	// var options = { multi: false };
 
- };
+ 		Notification.update(conditions, update, function(err, notification){
+ 		if(err) {
+ 			return next(err);
+ 		}
+ 		return res.json(200, 'The notification has been updated');
+
+ 		});
+ 	};
 /**
  * Delete an Notification
  */
- exports.delete = function(req, res) {
+ exports.delete = function(req, res, next) {
 
+ 	if(!req.body.notificationId){
+ 		return res.json(400, {error: 'Notification Id is missing'});
+ 	}
+
+	Notification.remove({'_id': req.body.notificationId}, function(err){
+
+		if(err) {
+ 			return next(err);
+ 		}
+ 		return res.json(200, 'The notification has been deleted');
+	});
  };
 
 /**
@@ -45,8 +92,9 @@
  exports.list = function(req, res, next) {
 
  	var dismissedNotifs = [];
- 	console.log('Users uname is : '+ req.user.username);
- 	User.findOne({'username': req.user.username}, 'dismissedNotificationIds',function (err, notifications) {
+ 	//console.log('Users uname is : '+ req.user.username);
+ 	// req.body.username - postman test
+ 	User.findOne({'username': req.body.username}, 'dismissedNotificationIds',function (err, notifications) {
  		if (err) {
  			return next(err);
  		}
@@ -67,7 +115,6 @@
  					Id: notification._id,
  					title: notification.title,
  					description: notification.description,
- 					links: notification.link,
  					startDate: notification.startDate,
  					endDate: notification.endDate
  				});

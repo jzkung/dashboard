@@ -6,7 +6,7 @@ var app = angular.module('notifications', []);
 angular.module('notifications').filter('displayFilter', function() {
 	return function(dateString) {
 		if(dateString === null){
-			dateString = 'no due date';
+			dateString = '(no due date)';
 			return dateString;
 		}
 		else{
@@ -37,11 +37,6 @@ angular.module('notifications').controller('NotificationsController', ['$scope',
 			$scope.getAllNotifications();
 		};
 		
-
-		var TooltipDemoCtrl = function ($scope) {
-			$scope.dismissTooltip = 'Click to dismiss';
-		};
-
 		$scope.getAllNotifications();
 	}]);
 
