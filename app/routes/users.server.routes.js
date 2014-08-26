@@ -11,7 +11,8 @@ module.exports = function(app) {
 	app.route('/users/me').get(users.me);
   app.route('/users')
     .get(users.list)
-    .put(users.update);
+    .put(users.update)
+    .post(users.create);
 
   app.route('/users/:id')
     .get(users.getUser)

@@ -85,10 +85,11 @@
     "white"         : true,     // true: Check against strict whitespace and indentation rules
 
     // Custom Globals
-    "globals"       : {
-      "jasmine"     : true,
-      "angular"     : true,
-      "ApplicationConfiguration": true
+    "globals": {
+      "jasmine"                 : true,
+      "angular"                 : true,
+      "ApplicationConfiguration": true,
+      "moment"                  : true
     }, // additional predefined global variables
 
     "predef": [ // Extra globals.

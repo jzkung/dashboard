@@ -9,6 +9,10 @@ angular.module('admin').controller('AdminUserController', ['$scope', '$state', '
         $scope.user = response;
       });
     }
+    else if ($state.current.name === 'admin-new-user') {
+      $scope.vars.isNew = true;
+      $scope.user = new User();
+    }
     else if ($state.current.name === 'admin-new-user-group') {
       $scope.vars.isNew = true;
       $scope.userGroup = new UserGroup();
@@ -33,6 +37,11 @@ angular.module('admin').controller('AdminUserController', ['$scope', '$state', '
       $location.path('/admin/user-groups/new');
     };
 
+    $scope.newUser = function () {
+      console.info('here');
+      $location.path('/admin/users/new');
+    };
+
     $scope.updateUserGroup = function () {
       var success = function () {
         $location.path('/admin/users');
@@ -52,12 +61,21 @@ angular.module('admin').controller('AdminUserController', ['$scope', '$state', '
     };
 
     $scope.updateUser = function () {
-      $scope.user.$update(function () {
+      var success = function () {
         $location.path('/admin/users');
-      }, function (response) {
+      };
+
+      var error = function (response) {
         $scope.user_form.$error = response.data;
         $scope.user_form.$setValidity('valid', false);
-      });
+      };
+
+      if ($scope.vars.isNew === true) {
+        $scope.user.$save($scope.user, success, error);
+      }
+      else {
+        $scope.user.$update(success, error);
+      }
     };
   }
 ]);

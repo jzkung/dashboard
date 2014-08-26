@@ -119,7 +119,7 @@ exports.list = function (req, res) {
  */
 exports.getUser = function (req, res) {
   if (req.user) {
-    User.findById(req.params.id, {firstName: 1, lastName: 1, roles: 1, username: 1}, function (err, user) {
+    User.findById(req.params.id, {firstName: 1, lastName: 1, roles: 1, username: 1, email: 1}, function (err, user) {
       if (err) {
         return res.json(400, {
           message: getErrorMessage(err)
@@ -132,6 +132,31 @@ exports.getUser = function (req, res) {
   } else {
     return res.json(400, {
       message: 'User is not signed in'
+    });
+  }
+};
+
+/**
+ * update user
+ */
+exports.create = function (req, res) {
+  if (req.user) {
+    // Merge existing user
+    var user = new User(req.body);
+    user.updated = Date.now();
+    user.displayName = user.firstName + ' ' + user.lastName;
+    user.provider = 'local';
+    user.created = Date.now();
+    user.password = 'ThePassword1';
+
+    user.save(function(err) {
+      if (err) {
+        return res.json(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        return res.json(user);
+      }
     });
   }
 };
