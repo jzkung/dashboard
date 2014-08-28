@@ -43,6 +43,26 @@ angular.module('notifications').factory('Notifications', ['$http','$log','$q',
 					$log.debug(data, status, headers, config);
 				});
 				return deferred.promise;
+			},
+
+			updateNotification: function() {
+				var deferred = $q.defer();
+				var url = '/api/notifications';
+
+				$http ({
+					method:'PUT',
+					url: url
+				})
+				.success(function(data, status, headers, config){
+					console.log('success');
+					$log.info(data, status, headers, config);
+					deferred.resolve(data);
+				})
+				.error(function(data, status, headers, config){
+					console.log('error');
+					$log.debug(data, status, headers, config);
+				});
+				return deferred.promise;
 			}
 		};
 	}

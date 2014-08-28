@@ -1,7 +1,7 @@
 
 <section data-ng-controller="NotificationsController as notifications">
 	<p ng-show="!notificationbox.length"><i>There are no currently notifications to display</i></p>
-
+<!-- <button ng-click='updateNotification()'>Update</button> -->
 	<ul class="list-group" style="overflow: scroll; max-height:400px;">
 	<li class="list-group-item" data-ng-repeat="notification in notificationbox | orderBy: 'endDate'">
 			<div>

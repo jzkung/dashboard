@@ -29,7 +29,6 @@ angular.module('notifications').controller('NotificationsController', ['$scope',
 		};
 		
 		$scope.dismissNotification = function (NotificationId){
-			console.log(' call 1');
 			Notifications.dismissNotification(NotificationId).then(
 				function(event){
 					console.log('entered');
@@ -38,6 +37,14 @@ angular.module('notifications').controller('NotificationsController', ['$scope',
 		};
 		
 		$scope.getAllNotifications();
+
+		// $scope.updateNotification = function (){
+		// 	Notifications.updateNotification().then(
+		// 		function(event){
+		// 			console.log('entered');
+		// 		});
+		// };
+
 	}]);
 
 app.directive('ngConfirmClick', [

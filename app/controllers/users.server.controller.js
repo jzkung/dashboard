@@ -74,6 +74,7 @@ exports.signup = function(req, res) {
  */
 exports.signin = function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
+		console.log('In signin function with user ' +  JSON.stringify(user));
 		if (err || !user) {
 			res.send(400, info);
 		} else {
@@ -85,6 +86,7 @@ exports.signin = function(req, res, next) {
 				if (err) {
 					res.send(400, err);
 				} else {
+					console.log('Successfully signed in user');
 					res.redirect('/#!/control-panel');
 				}
 			});
@@ -97,11 +99,11 @@ exports.signin = function(req, res, next) {
  */
 exports.dismissNotification = function(req, res, next){
 	var notificationId = req.query.id;
-	console.log('Passed NotID : '+ req.query.id);
+	//console.log('LODDED IN USER --->'+req.user);
+	//console.log('Passed NotID : '+ req.query.id);
 	User.update({'username': req.user.username}, {$push: {'dismissedNotificationIds': notificationId}}).exec(function(err) {
 		if (err) return err;
 	});
-
 };
 
 /**
@@ -210,6 +212,9 @@ exports.signout = function(req, res) {
  * Send User
  */
 exports.me = function(req, res) {
+
+	//console.log('LOGGED USER--->'+req.user);
+
 	res.jsonp(req.user || null);
 };
 
