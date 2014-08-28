@@ -15,7 +15,7 @@
  * Globals
  */
  var user, notification;
- var testNotification;
+ var testNotificationId;
 
 /**
  * Unit tests
@@ -86,7 +86,7 @@
  		});
 
  		it('should fail when calling PUT /api/notifications', function (done){
- 			request.put('http://localhost:3000/api/notifications')
+ 			request.put('http://localhost:3000/api/notifications/'+testNotificationId)
  			.send({
  				title: 'TitleUpdate',
  				description: 'DescUpdate',
@@ -101,13 +101,23 @@
  		});
 
  		it('should fail when calling PUT /api/notifications and return error', function (done){
- 			request.put('http://localhost:3000/api/notifications')
+ 			request.put('http://localhost:3000/api/notifications/'+testNotificationId)
  			.end(function(response){
  				response.status.should.equal(401);
  				response.body.should.have.property('error');
  				done();
  			});
  		});
+
+ 		it('Should be able to delete without any problems on calling DEL /api/notifications', function (done){
+ 			request.del('http://localhost:3000/api/notifications/'+testNotificationId)
+ 			.set('cookie', self.cookie) 
+ 			.end(function (response){
+ 				response.status.should.equal(401);
+ 				done();
+ 			});
+ 		});
+
  	});
 
 
@@ -143,7 +153,7 @@ describe('For logged in user', function (){
 		})
 		.set('cookie', self.cookie)
 		.end(function (response){
-			testNotification = response.body._id;
+			testNotificationId = response.body._id;
 			response.status.should.equal(200);
 			done();
 		});
@@ -192,7 +202,7 @@ describe('For logged in user', function (){
 
 // describe('Update notification', function(){
 	it('Update notifications - should be able to update without problems on calling PUT api/notifications', function (done){
-		request.put('http://localhost:3000/api/notifications')
+		request.put('http://localhost:3000/api/notifications/'+testNotificationId)
 		.send({
 			title: 'testTitle2',
 			description: 'DescUpdate',
@@ -209,19 +219,9 @@ describe('For logged in user', function (){
 // });
 
 // describe('Delete notification', function (){
-	it('Should be able to delete without any problems on calling DEL /api/notifications', function (done){
-		request.del('http://localhost:3000/api/notifications')
-		.send({'notificationId': testNotification})
-		.set('cookie', self.cookie) 
-		.end(function (response){
-			response.status.should.equal(200);
-			done();
-		});
-	});
 
 	it('Should be able to delete without any problems on calling DEL /api/notifications', function (done){
-		request.del('http://localhost:3000/api/notifications')
-		.send({'notificationId': testNotification})
+		request.del('http://localhost:3000/api/notifications/'+testNotificationId)
 		.set('cookie', self.cookie) 
 		.end(function (response){
 			response.status.should.equal(200);

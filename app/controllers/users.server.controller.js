@@ -243,13 +243,10 @@ exports.deleteUserByUsername = function(req, res, next){
 	if(!req.params.username){
 		return res.json(400, {error: 'Username missing'});
 	}
-
 	User.remove({'username':req.params.username}).exec(function(err){
 		if (err) return next(err);
 	});
-
 	return res.json(200, 'User has been deleted');
-
 }; 
 
 /**
