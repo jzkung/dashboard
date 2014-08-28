@@ -84,15 +84,6 @@
  			});	
  		});
 
- 		it('should fail when calling GET /api/notifications and return error', function (done){
- 			request.get('http://localhost:3000/api/notifications')
- 			.end(function(response){
- 				response.status.should.equal(401);
- 				response.body.should.have.property('error');
- 				done();
- 			});
- 		});
-
  		it('should fail when calling PUT /api/notifications', function (done){
  			request.put('http://localhost:3000/api/notifications')
  			.send({
@@ -119,7 +110,7 @@
  	});
 
 
-describe('Sign up user', function (){
+describe('For logged in user', function (){
 
 	it('should sign up the user', function (done){
 		request.post('http://localhost:3000/auth/signup')
@@ -140,7 +131,7 @@ describe('Sign up user', function (){
 // });
 
 // describe('Create notification with required fields', function (){
-	it ('should return created notification', function(done){
+	it ('Create notification: with required fields - should respond with status 200 on calling POST api/notifications', function(done){
 		console.log( 'Calling create notification with cookie ' + self.cookie);
 		request.post('http://localhost:3000/api/notifications')
 		.set('cookie', self.cookie)
@@ -160,7 +151,7 @@ describe('Sign up user', function (){
 // });
 
 // describe('Create notification without required fields', function (){
-	it ('should respond with error', function(done){
+	it ('Create notification: without required fields - should respond with error on calling POST api/notifications', function(done){
 		request.post('http://localhost:3000/api/notifications')
 		.send({
 			description: 'Desc2',
@@ -179,7 +170,7 @@ describe('Sign up user', function (){
 // });
 
 // describe('Get notifications', function(){
-	it('should respond with json', function(done){
+	it('Get notification: check status - should respond with json on calling GET /api/notifications', function(done){
 		request.get('http://localhost:3000/api/notifications')
 		.set('cookie', self.cookie)
 		.end(function (response){
@@ -188,7 +179,7 @@ describe('Sign up user', function (){
 			done();
 		});
 	});
-	it('should contain title field', function(done){
+	it('Get notification: check for title - should contain title field on calling GET /api/notifications', function(done){
 		request.get('http://localhost:3000/api/notifications')
 		.set('cookie', self.cookie)
 		.end(function (response){
@@ -200,7 +191,7 @@ describe('Sign up user', function (){
 // });
 
 // describe('Update notification', function(){
-	it('should be able to update without problems', function (done){
+	it('Update notifications - should be able to update without problems on calling PUT api/notifications', function (done){
 		request.put('http://localhost:3000/api/notifications')
 		.send({
 			title: 'testTitle2',
@@ -218,7 +209,7 @@ describe('Sign up user', function (){
 // });
 
 // describe('Delete notification', function (){
-	it('Should be able to delete without any problems', function (done){
+	it('Should be able to delete without any problems on calling DEL /api/notifications', function (done){
 
 		Notification.find({'title' : 'testTitle2'}, function (docs){
 
