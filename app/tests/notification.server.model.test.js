@@ -15,6 +15,7 @@
  * Globals
  */
  var user, notification;
+ var testNotification;
 
 /**
  * Unit tests
@@ -142,6 +143,7 @@ describe('For logged in user', function (){
 		})
 		.set('cookie', self.cookie)
 		.end(function (response){
+			testNotification = response.body._id;
 			response.status.should.equal(200);
 			done();
 		});
@@ -208,18 +210,34 @@ describe('For logged in user', function (){
 
 // describe('Delete notification', function (){
 	it('Should be able to delete without any problems on calling DEL /api/notifications', function (done){
-
-		
-		request.get('http://localhost:3000/api/notifications')
-		.send()
 		request.del('http://localhost:3000/api/notifications')
-		.send({'notificationId': '53fed2ea4b96430000b1bbd9'})
+		.send({'notificationId': testNotification})
 		.set('cookie', self.cookie) 
 		.end(function (response){
 			response.status.should.equal(200);
 			done();
 		});
 	});
+
+	it('Should be able to delete without any problems on calling DEL /api/notifications', function (done){
+		request.del('http://localhost:3000/api/notifications')
+		.send({'notificationId': testNotification})
+		.set('cookie', self.cookie) 
+		.end(function (response){
+			response.status.should.equal(200);
+			done();
+		});
+	});
+
+	it('remove test user', function (done){
+		request.del('localhost:3000/users/deleteUserByUsername/testRohit1')
+		.set('cookie', self.cookie) 
+		.end(function (response){
+			response.status.should.equal(200);
+			done();
+		});
+	});
+
 });
 
 
