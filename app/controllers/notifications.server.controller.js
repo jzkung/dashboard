@@ -54,22 +54,40 @@
  exports.read = function(req, res) {
 
  };
+
+/**
+ * Retrieve notification by Id
+ */
+ exports.notificationById = function(req, res, next) {
+
+ 		if(!req.params.id){
+ 			return res.json(400, 'Notification Id missing');
+ 		}
+
+ 		Notification.find({'_id': req.params.id}).exec(function (err, notification){
+ 			if(err){
+ 				return next(err);
+ 			}
+
+ 			return res.json(200, notification);
+ 		});
+
+ };
+
 /**
  * Update a Notification
  */
  exports.update = function(req, res, next) {
 
- 	//console.log('logged user from notif server------>'+ req.user);
-
  	if(typeof req.user === 'undefined'){
  		return res.json(401, {error: 'User not logged in'});
  	}
- 	if(!req.body.title || !req.body.description || !req.body.userGroups){
+ 	if(!req.params.id || !req.body.title || !req.body.description || !req.body.userGroups){
 
  		return res.json(400, {error: 'Missing fields'});
  	}
  	
- 	var conditions = {title: req.body.title};
+ 	var conditions = { '_id': req.params.id };
  	// var update = {$set :{'title':'EBS Gallery Walk',
  	// 'description':'http://www.intuitbenefits.com/',
  	// 'startDate':'2014-08-01',
@@ -91,19 +109,19 @@
  	});
  };
 /**
- * Delete an Notification
+ * Delete a Notification by Id
  */
- exports.delete = function(req, res, next) {
+ exports.deleteById = function(req, res, next) {
 
  	if(!req.user){
  		return res.json(401, {error: 'User not logged in'});
  	}
 
- 	if(!req.body.notificationId){
+ 	if(!req.params.id){
  		return res.json(400, {error: 'Notification Id is missing'});
  	}
 		// {'_id': {$in :req.body.notificationId}} 
- 	Notification.remove({'_id': req.body.notificationId}, function(err){
+ 	Notification.remove({'_id': req.params.id}, function(err){
 
  		if(err) {
  			return next(err);
