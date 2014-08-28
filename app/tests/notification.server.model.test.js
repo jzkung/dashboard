@@ -123,7 +123,6 @@ describe('For logged in user', function (){
 		})
 		.end(function (response){
 			self.cookie = response.headers['set-cookie'];
-			console.log('Got cookie as ' +  self.user);
 			response.status.should.equal(200);
 			done();
 		});
@@ -134,7 +133,6 @@ describe('For logged in user', function (){
 	it ('Create notification: with required fields - should respond with status 200 on calling POST api/notifications', function(done){
 		console.log( 'Calling create notification with cookie ' + self.cookie);
 		request.post('http://localhost:3000/api/notifications')
-		.set('cookie', self.cookie)
 		.send({
 			title: 'testTitle2',
 			description: 'Desc2',
@@ -211,11 +209,7 @@ describe('For logged in user', function (){
 // describe('Delete notification', function (){
 	it('Should be able to delete without any problems on calling DEL /api/notifications', function (done){
 
-		Notification.find({'title' : 'testTitle2'}, function (docs){
-
- 			console.log('====================================='+docs);
- 	
-		});
+		
 		request.get('http://localhost:3000/api/notifications')
 		.send()
 		request.del('http://localhost:3000/api/notifications')
