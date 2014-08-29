@@ -3,7 +3,7 @@
 angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication',
 	function($scope, $http, $location, Authentication) {
 		$scope.authentication = Authentication;
-
+        $scope.authentication.user = null;
 		//If user is signed in then redirect back home
 		if ($scope.authentication.user) $location.path('/');
 		console.log('User is ' + JSON.stringify($scope.authentication.user));

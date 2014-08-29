@@ -243,13 +243,12 @@ describe('For logged in user', function (){
 
 
 after(function(done) {
-	console.log('Calling after in notification server model test');
+	//console.log('Calling after in notification server model test');
 	User.remove().exec();
 	Notification.remove().exec();
 	done();
 });
 
-// {'title': {$in :['testTitle1', 'testTitle2']}}   {'username':'testUser1'}
 });
 
 

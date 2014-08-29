@@ -38,7 +38,6 @@ var getErrorMessage = function(err) {
 exports.signup = function(req, res) {
 	// For security measurement we remove the roles from the req.body object
 	delete req.body.roles;
-
 	// Init Variables
 	var user = new User(req.body);
 	var message = null;
@@ -99,10 +98,11 @@ exports.signin = function(req, res, next) {
  */
 exports.dismissNotification = function(req, res, next){
 	var notificationId = req.query.id;
-	//console.log('LODDED IN USER --->'+req.user);
+	//console.log('Logged in user --->'+req.user);
 	//console.log('Passed NotID : '+ req.query.id);
 	User.update({'username': req.user.username}, {$push: {'dismissedNotificationIds': notificationId}}).exec(function(err) {
 		if (err) return err;
+		return res.json(200, 'The notification has been dismissed');
 	});
 };
 

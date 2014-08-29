@@ -79,7 +79,7 @@
  */
  exports.update = function(req, res, next) {
 
- 	if(typeof req.user === 'undefined'){
+ 	if(!req.user){
  		return res.json(401, {error: 'User not logged in'});
  	}
  	if(!req.params.id || !req.body.title || !req.body.description || !req.body.userGroups){
